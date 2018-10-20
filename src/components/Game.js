@@ -1,6 +1,6 @@
 import React from "react";
 import injectSheet from "react-jss";
-import GameCardList from "./GameCardList";
+import GameCardGrid from "./GameCardGrid";
 const style = {
   gameCT: {
     display: "flex",
@@ -17,11 +17,11 @@ const style = {
 };
 class Game extends React.Component {
   render() {
-    const {classes} = this.props;
+    const {classes, difficulty, gameStarted} = this.props;
     return (
       <div className={classes.gameCT}>
         <div className={classes.game}>
-          <GameCardList />
+          {gameStarted && <GameCardGrid difficulty={difficulty} />}
         </div>
         <div className={classes.gameUI}>
           <div>

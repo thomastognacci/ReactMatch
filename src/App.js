@@ -28,6 +28,7 @@ const style = {
 };
 class App extends PureComponent {
   state = {
+    gameStarted: false,
     options: {
       difficulty: "easy",
     },
@@ -37,16 +38,25 @@ class App extends PureComponent {
     options.difficulty = e.target.value;
     this.setState({options});
   };
+  handleClickStart = (e) => {
+    this.setState({gameStarted: true});
+  };
   render() {
     const {classes} = this.props;
-    const {options} = this.state;
+    const {options, gameStarted} = this.state;
     return (
       <MuiThemeProvider theme={MainTheme}>
         <div className={classes.App}>
           <Header {...style} />
           <div className={classes.pageCT}>
-            <Menu {...options} {...style} handleDifficultyChange={this.handleDifficultyChange} />
-            <Game {...style} />
+            <Menu
+              {...options}
+              {...style}
+              handleClickStart={this.handleClickStart}
+              handleDifficultyChange={this.handleDifficultyChange}
+              gameStarted={gameStarted}
+            />
+            <Game {...options} {...style} gameStarted={gameStarted} />
           </div>
         </div>
       </MuiThemeProvider>

@@ -9,6 +9,7 @@ const MainTheme = createMuiTheme({
   },
   typography: {
     // fontSize: 12,
+    useNextVariants: true,
   },
   overrides: {
     MuiButton: {
