@@ -1,21 +1,34 @@
 import React from "react";
 import injectSheet from "react-jss";
+import cx from "classnames";
 import CardGenerator from "./CardGenerator";
 import GameEnd from "./GameEnd";
 
 const style = {
   gameGrid: {
     display: "grid",
-    maxWidth: "32em",
+    maxWidth: "50em",
     margin: "auto",
-    gridTemplateColumns: "repeat(auto-fit, 6.5em)",
+    gridTemplateColumns: "repeat(auto-fill, 6.5em)",
     gridAutoRows: "6.5em",
     justifyContent: "center",
     gridGap: "1em",
   },
+  easyGrid: {
+    maxWidth: "32em",
+  },
 };
 
 class GameCardGrid extends React.Component {
+  state = {
+    difficulty: this.props.difficulty,
+  };
+  static getDerivedStateFromProps(props, state) {
+    if (props.shouldRestart) {
+      return {difficulty: props.difficulty};
+    }
+    return null;
+  }
   render() {
     const {
       handleCardGeneration,
@@ -30,9 +43,9 @@ class GameCardGrid extends React.Component {
       endGame,
       shouldRestart,
     } = this.props;
-
+    const gridClasses = cx(classes.gameGrid, this.state.difficulty === "easy" && classes.easyGrid);
     return (
-      <div className={classes.gameGrid}>
+      <div className={gridClasses}>
         {endGame && <GameEnd />}
         <CardGenerator
           difficulty={difficulty}

@@ -1,6 +1,8 @@
 import React from "react";
 import injectSheet from "react-jss";
 import GameCardGrid from "./GameCardGrid";
+import Typography from "@material-ui/core/Typography";
+
 const style = {
   gameCT: {
     display: "flex",
@@ -81,7 +83,7 @@ class Game extends React.Component {
     return (
       <div className={classes.gameCT}>
         <div className={classes.game}>
-          {gameStarted && (
+          {gameStarted ? (
             <GameCardGrid
               handleCardClicks={this.handleCardClicks}
               handleCardGeneration={this.handleCardGeneration}
@@ -94,6 +96,8 @@ class Game extends React.Component {
               endGame={endGame}
               shouldRestart={shouldRestart}
             />
+          ) : (
+            <Typography variant="overline">Press Start</Typography>
           )}
         </div>
         <div className={classes.gameUI}>

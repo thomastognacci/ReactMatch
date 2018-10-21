@@ -12,17 +12,17 @@ class CardGenerator extends React.Component {
 
     switch (difficulty) {
       case "hard":
-        console.log("Hard Case TBD");
+        this.generateSetOfCards(36);
         break;
       case "medium":
-        console.log("Medium Case TBD");
+        this.generateSetOfCards(24);
         break;
       default:
-        this.generateEasyCards();
+        this.generateSetOfCards(12);
         break;
     }
   };
-  generateEasyCards = (numberOfCards = 12) => {
+  generateSetOfCards = (numberOfCards = 12) => {
     const pickUniqueIndexes = (list) => {
       let nums = list.slice();
       let num;
