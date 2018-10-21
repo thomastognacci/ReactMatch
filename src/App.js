@@ -28,7 +28,7 @@ const style = {
 };
 class App extends PureComponent {
   state = {
-    gameStarted: true,
+    gameStarted: false,
     options: {
       difficulty: "easy",
     },
