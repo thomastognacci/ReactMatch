@@ -3,8 +3,13 @@ import {emojiFullList} from "../list-of-cards";
 import GameCard from "./GameCard";
 
 class CardGenerator extends React.Component {
+  state = {
+    displayCards: false,
+  };
   generateCards = () => {
     const {difficulty} = this.props;
+    console.log("Generating cards", difficulty);
+
     switch (difficulty) {
       case "hard":
         console.log("Hard Case TBD");
@@ -64,16 +69,23 @@ class CardGenerator extends React.Component {
   componentDidMount() {
     this.generateCards();
   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.cardList) {
+      return {displayCards: true};
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.shouldRestart) {
+      this.generateCards();
+    }
+  }
 
   render() {
-    const {
-      paused,
-      handleCardClicks,
-      displayCards,
-      cardList,
-      activeCard,
-      previousTwoCards,
-    } = this.props;
+    const {paused, handleCardClicks, cardList, activeCard, previousTwoCards} = this.props;
+
+    const {displayCards} = this.state;
 
     if (displayCards && cardList) {
       const listOfCards = cardList.map((card, index) => (

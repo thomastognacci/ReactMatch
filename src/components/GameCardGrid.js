@@ -1,6 +1,6 @@
 import React from "react";
 import injectSheet from "react-jss";
-import CardGenetor from "./CardGenerator";
+import CardGenerator from "./CardGenerator";
 import GameEnd from "./GameEnd";
 
 const style = {
@@ -16,69 +16,30 @@ const style = {
 };
 
 class GameCardGrid extends React.Component {
-  state = {
-    paused: false,
-    endGame: false,
-    cardList: null,
-    activeCard: {},
-    previousTwoCards: [],
-    revealedCount: 0,
-    clickCount: 0,
-  };
-
-  handleCardGeneration = (cardList) => {
-    this.setState({cardList, displayCards: true});
-  };
-
-  handleCardClicks = (card, index) => {
-    // Unpause the game if click happens before the timeout
-    clearTimeout(window["timeoutIdGamePaused"]);
-    this.setState({paused: false, previousTwoCards: []});
-
-    // Win
-    if (card === this.state.activeCard.card && index !== this.state.activeCard.index) {
-      const cardList = [...this.state.cardList];
-      const revealedCount = this.state.revealedCount + 2;
-      cardList[index].revealed = true;
-      cardList[this.state.activeCard.index].revealed = true;
-      if (revealedCount === cardList.length) {
-        return this.setState({
-          activeCard: {},
-          cardList,
-          clickCount: 0,
-          revealedCount,
-          endGame: true,
-        });
-      }
-      return this.setState({activeCard: {}, cardList, clickCount: 0, revealedCount});
-    }
-    // Lost this round
-    if (this.state.clickCount === 1) {
-      const previousTwoCards = [this.state.activeCard.index, index];
-      this.setState({activeCard: {}, previousTwoCards, clickCount: 0, paused: true});
-      window["timeoutIdGamePaused"] = setTimeout(() => {
-        this.setState({previousTwoCards: [], paused: false});
-      }, 1500);
-      return window["timeoutIdGamePaused"];
-    }
-    // One more click
-    this.setState((prevState) => ({
-      activeCard: {card, index},
-      clickCount: prevState.clickCount + 1,
-    }));
-  };
-
   render() {
-    const {classes} = this.props;
-    const {cardList, displayCards, activeCard, previousTwoCards, paused, endGame} = this.state;
+    const {
+      handleCardGeneration,
+      handleCardClicks,
+      classes,
+      cardList,
+      displayCards,
+      difficulty,
+      activeCard,
+      previousTwoCards,
+      paused,
+      endGame,
+      shouldRestart,
+    } = this.props;
 
     return (
       <div className={classes.gameGrid}>
         {endGame && <GameEnd />}
-        <CardGenetor
+        <CardGenerator
+          difficulty={difficulty}
+          shouldRestart={shouldRestart}
           paused={paused}
-          handleCardClicks={this.handleCardClicks}
-          handleCardGeneration={this.handleCardGeneration}
+          handleCardClicks={handleCardClicks}
+          handleCardGeneration={handleCardGeneration}
           cardList={cardList}
           displayCards={displayCards}
           activeCard={activeCard}
