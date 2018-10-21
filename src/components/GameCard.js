@@ -16,7 +16,7 @@ const style = {
     color: "white",
     textAlign: "center",
     "& span": {
-      fontSize: "4em",
+      fontSize: (props) => `${props.difficulty === "hard" ? "2.5" : "4"}em`,
     },
   },
   cardActive: {
@@ -35,6 +35,7 @@ const style = {
     height: "100%",
   },
   cardContent: {
+    padding: "0",
     display: "inline-block",
   },
 };

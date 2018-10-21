@@ -73,13 +73,21 @@ class Game extends React.Component {
   };
   static getDerivedStateFromProps(props, state) {
     if (props.shouldRestart) {
-      return initialState;
+      return {initialState, difficulty: props.difficulty};
     }
     return null;
   }
   render() {
-    const {cardList, displayCards, activeCard, previousTwoCards, paused, endGame} = this.state;
-    const {shouldRestart, classes, difficulty, gameStarted} = this.props;
+    const {
+      cardList,
+      displayCards,
+      activeCard,
+      previousTwoCards,
+      paused,
+      endGame,
+      difficulty,
+    } = this.state;
+    const {shouldRestart, classes, gameStarted} = this.props;
     return (
       <div className={classes.gameCT}>
         <div className={classes.game}>

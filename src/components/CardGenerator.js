@@ -83,7 +83,14 @@ class CardGenerator extends React.Component {
   }
 
   render() {
-    const {paused, handleCardClicks, cardList, activeCard, previousTwoCards} = this.props;
+    const {
+      difficulty,
+      paused,
+      handleCardClicks,
+      cardList,
+      activeCard,
+      previousTwoCards,
+    } = this.props;
 
     const {displayCards} = this.state;
 
@@ -91,6 +98,7 @@ class CardGenerator extends React.Component {
       const listOfCards = cardList.map((card, index) => (
         <GameCard
           paused={paused}
+          difficulty={difficulty}
           handleCardClicks={handleCardClicks}
           key={index}
           index={index}

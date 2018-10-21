@@ -9,8 +9,10 @@ const style = {
     display: "grid",
     maxWidth: "50em",
     margin: "auto",
-    gridTemplateColumns: "repeat(auto-fill, 6.5em)",
-    gridAutoRows: "6.5em",
+    gridTemplateColumns: (props) =>
+      `repeat(auto-fill, ${props.difficulty === "hard" ? "4" : "6.5"}em)`,
+
+    gridAutoRows: (props) => `${props.difficulty === "hard" ? "4" : "6.5"}em`,
     justifyContent: "center",
     gridGap: "1em",
   },
