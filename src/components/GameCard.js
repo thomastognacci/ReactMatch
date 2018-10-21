@@ -27,6 +27,9 @@ const style = {
   },
   wrongChoice: {
     backgroundColor: "#f44336 !important",
+    "& span": {
+      filter: "drop-shadow(0px 0px 10px white)",
+    },
   },
   cardActionArea: {
     height: "100%",

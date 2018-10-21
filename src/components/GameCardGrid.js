@@ -1,6 +1,7 @@
 import React from "react";
 import injectSheet from "react-jss";
 import CardGenetor from "./CardGenerator";
+import GameEnd from "./GameEnd";
 
 const style = {
   gameGrid: {
@@ -16,11 +17,13 @@ const style = {
 
 class GameCardGrid extends React.Component {
   state = {
+    paused: false,
+    endGame: false,
     cardList: null,
     activeCard: {},
     previousTwoCards: [],
+    revealedCount: 0,
     clickCount: 0,
-    paused: false,
   };
 
   handleCardGeneration = (cardList) => {
@@ -28,16 +31,26 @@ class GameCardGrid extends React.Component {
   };
 
   handleCardClicks = (card, index) => {
-    // Unpause the game
+    // Unpause the game if click happens before the timeout
     clearTimeout(window["timeoutIdGamePaused"]);
     this.setState({paused: false, previousTwoCards: []});
 
     // Win
     if (card === this.state.activeCard.card && index !== this.state.activeCard.index) {
       const cardList = [...this.state.cardList];
+      const revealedCount = this.state.revealedCount + 2;
       cardList[index].revealed = true;
       cardList[this.state.activeCard.index].revealed = true;
-      return this.setState({activeCard: {}, cardList, clickCount: 0});
+      if (revealedCount === cardList.length) {
+        return this.setState({
+          activeCard: {},
+          cardList,
+          clickCount: 0,
+          revealedCount,
+          endGame: true,
+        });
+      }
+      return this.setState({activeCard: {}, cardList, clickCount: 0, revealedCount});
     }
     // Lost this round
     if (this.state.clickCount === 1) {
@@ -57,10 +70,11 @@ class GameCardGrid extends React.Component {
 
   render() {
     const {classes} = this.props;
-    const {cardList, displayCards, activeCard, previousTwoCards, paused} = this.state;
+    const {cardList, displayCards, activeCard, previousTwoCards, paused, endGame} = this.state;
 
     return (
       <div className={classes.gameGrid}>
+        {endGame && <GameEnd />}
         <CardGenetor
           paused={paused}
           handleCardClicks={this.handleCardClicks}
