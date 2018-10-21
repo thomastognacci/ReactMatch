@@ -6,23 +6,23 @@ class CardGenerator extends React.Component {
   state = {
     displayCards: false,
   };
-  generateCards = () => {
+  generateLevel = () => {
     const {difficulty} = this.props;
-    console.log("Generating cards", difficulty);
 
     switch (difficulty) {
       case "hard":
-        this.generateSetOfCards(36);
+        this.generateCards(50);
         break;
       case "medium":
-        this.generateSetOfCards(24);
+        this.generateCards(24);
         break;
       default:
-        this.generateSetOfCards(12);
+        this.generateCards(12);
         break;
     }
   };
-  generateSetOfCards = (numberOfCards = 12) => {
+
+  generateCards = (numberOfCards = 12) => {
     const pickUniqueIndexes = (list) => {
       let nums = list.slice();
       let num;
@@ -66,20 +66,22 @@ class CardGenerator extends React.Component {
     });
     this.props.handleCardGeneration(cardList);
   };
+
   componentDidMount() {
-    this.generateCards();
+    this.generateLevel();
   }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.shouldRestart) {
+      this.generateLevel();
+    }
+  }
+
   static getDerivedStateFromProps(props, state) {
     if (props.cardList) {
       return {displayCards: true};
     }
     return null;
-  }
-
-  componentDidUpdate(prevProps) {
-    if (prevProps.shouldRestart) {
-      this.generateCards();
-    }
   }
 
   render() {

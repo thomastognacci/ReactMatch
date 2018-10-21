@@ -46,6 +46,7 @@ class GameCardGrid extends React.Component {
       shouldRestart,
     } = this.props;
     const gridClasses = cx(classes.gameGrid, this.state.difficulty === "easy" && classes.easyGrid);
+
     return (
       <div className={gridClasses}>
         {endGame && <GameEnd />}

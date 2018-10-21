@@ -28,7 +28,7 @@ const initialState = {
   clickCount: 0,
 };
 class Game extends React.Component {
-  state = initialState;
+  state = {};
 
   handleCardGeneration = (cardList) => {
     this.setState({cardList, displayCards: true});
@@ -71,6 +71,18 @@ class Game extends React.Component {
       clickCount: prevState.clickCount + 1,
     }));
   };
+
+  componentDidMount() {
+    this.setState({
+      ...initialState,
+      difficulty: this.props.difficulty,
+    });
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.gameStarted && prevProps.difficulty !== this.props.difficulty) {
+      this.setState({initialState, difficulty: this.props.difficulty});
+    }
+  }
   static getDerivedStateFromProps(props, state) {
     if (props.shouldRestart) {
       return {initialState, difficulty: props.difficulty};

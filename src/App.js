@@ -48,6 +48,7 @@ class App extends PureComponent {
   render() {
     const {classes} = this.props;
     const {options, gameStarted, shouldRestart} = this.state;
+
     return (
       <MuiThemeProvider theme={MainTheme}>
         <div className={classes.App}>
@@ -61,7 +62,13 @@ class App extends PureComponent {
               handleDifficultyChange={this.handleDifficultyChange}
               gameStarted={gameStarted}
             />
-            <Game {...options} {...style} shouldRestart={shouldRestart} gameStarted={gameStarted} />
+            <Game
+              {...options}
+              {...style}
+              difficulty={options.difficulty}
+              shouldRestart={shouldRestart}
+              gameStarted={gameStarted}
+            />
           </div>
         </div>
       </MuiThemeProvider>
