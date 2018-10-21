@@ -17,14 +17,6 @@ const style = {
     display: "flex",
     height: "100%",
   },
-  theme: {
-    colors: {
-      main: "#673ab7",
-    },
-    gradient: {
-      main: "linear-gradient(to top left, #6e7bca, #673ab7)",
-    },
-  },
 };
 class App extends PureComponent {
   state = {
@@ -56,7 +48,6 @@ class App extends PureComponent {
           <div className={classes.pageCT}>
             <Menu
               {...options}
-              {...style}
               handleStart={this.handleStart}
               handleRestart={this.handleRestart}
               handleDifficultyChange={this.handleDifficultyChange}
@@ -64,7 +55,6 @@ class App extends PureComponent {
             />
             <Game
               {...options}
-              {...style}
               difficulty={options.difficulty}
               shouldRestart={shouldRestart}
               gameStarted={gameStarted}

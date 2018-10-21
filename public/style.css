@@ -3,12 +3,17 @@ h1.site-title-appear {
     opacity: 0;
 }
 
-.site-menu-appear {
-    transition: opacity .75s .25s;
-    opacity: 0;
+h1.site-title-appear-active {
+    opacity: 1;
 }
 
-h1.site-title-appear-active,
-.site-menu-appear-active {
+.site-menu-appear fieldset,
+.site-menu-appear button {
+    opacity: 0;
+    transition: opacity .5s .5s;
+}
+
+.site-menu-appear.site-menu-appear-active fieldset,
+.site-menu-appear.site-menu-appear-active button {
     opacity: 1;
 }

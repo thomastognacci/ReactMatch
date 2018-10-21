@@ -7,7 +7,7 @@ const style = {
   myHeader: {
     padding: "2rem",
     color: "white",
-    background: (props) => props.theme.gradient.main,
+    background: "linear-gradient(to top left, #6e7bca, #673ab7)",
     textAlign: "center",
 
     "& h1": {
@@ -28,17 +28,13 @@ class Header extends React.Component {
           transitionAppearTimeout={1250}
         >
           <Typography variant="h1" gutterBottom={false}>
-            {" < "}
+            <span aria-label="brain-emoji" role="img">
+              🧠
+            </span>{" "}
+            Memoji{" "}
             <span aria-label="brain-emoji" role="img">
               🧠
             </span>
-            {" - "}
-            Memoji
-            {" - "}
-            <span aria-label="brain-emoji" role="img">
-              🧠
-            </span>
-            {" > "}
           </Typography>
         </CSSTransitionGroup>
       </header>
