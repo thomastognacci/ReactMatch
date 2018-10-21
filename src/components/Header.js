@@ -27,7 +27,7 @@ class Header extends React.Component {
             🧠
           </span>
           {" - "}
-          Rematch
+          Memoji
           {" - "}
           <span aria-label="brain-emoji" role="img">
             🧠
