@@ -97,7 +97,7 @@ class Game extends React.Component {
               shouldRestart={shouldRestart}
             />
           ) : (
-            <Typography variant="overline">Press Start</Typography>
+            <Typography variant="overline">Pick your difficulty & Press Start</Typography>
           )}
         </div>
         <div className={classes.gameUI}>

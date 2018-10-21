@@ -1,6 +1,7 @@
 import React from "react";
 import injectSheet from "react-jss";
 import Typography from "@material-ui/core/Typography";
+import {CSSTransitionGroup} from "react-transition-group";
 
 const style = {
   myHeader: {
@@ -21,19 +22,25 @@ class Header extends React.Component {
     const {classes} = this.props;
     return (
       <header className={classes.myHeader}>
-        <Typography variant="h1" gutterBottom={false}>
-          {" < "}
-          <span aria-label="brain-emoji" role="img">
-            🧠
-          </span>
-          {" - "}
-          Memoji
-          {" - "}
-          <span aria-label="brain-emoji" role="img">
-            🧠
-          </span>
-          {" > "}
-        </Typography>
+        <CSSTransitionGroup
+          transitionName="site-title"
+          transitionAppear={true}
+          transitionAppearTimeout={1250}
+        >
+          <Typography variant="h1" gutterBottom={false}>
+            {" < "}
+            <span aria-label="brain-emoji" role="img">
+              🧠
+            </span>
+            {" - "}
+            Memoji
+            {" - "}
+            <span aria-label="brain-emoji" role="img">
+              🧠
+            </span>
+            {" > "}
+          </Typography>
+        </CSSTransitionGroup>
       </header>
     );
   }
