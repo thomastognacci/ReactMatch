@@ -1,17 +1,24 @@
 import React from "react";
 import injectSheet from "react-jss";
-import SelectDifficulty from "./SelectDifficulty";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
 import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
+import Typography from "@material-ui/core/Typography";
+
+import Button from "@material-ui/core/Button";
+import SelectDifficulty from "./SelectDifficulty";
+import Timer from "./Timer";
 
 const style = {
   mainMenu: {
     flex: "0 0 20%",
-    padding: "1rem",
+
     color: "#673ab7",
     borderRight: "3px solid",
     borderRightColor: "#673ab7",
+    display: "flex",
+    flexDirection: "column",
+  },
+  topMenu: {
+    padding: "1rem",
   },
 };
 class Menu extends React.Component {
@@ -23,6 +30,9 @@ class Menu extends React.Component {
       handleRestart,
       handleStart,
       gameStarted,
+      shouldRestart,
+      gameEnded,
+      handleGameDuration,
     } = this.props;
     return (
       <CSSTransitionGroup
@@ -30,9 +40,11 @@ class Menu extends React.Component {
         transitionName="site-menu"
         transitionAppear={true}
         transitionAppearTimeout={1000}
+        transitionEnter={false}
+        transitionLeave={false}
         className={classes.mainMenu}
       >
-        <div>
+        <div className={classes.topMenu}>
           <SelectDifficulty
             difficulty={difficulty}
             handleDifficultyChange={handleDifficultyChange}
@@ -48,6 +60,12 @@ class Menu extends React.Component {
             </Button>
           )}
         </div>
+        <Timer
+          handleGameDuration={handleGameDuration}
+          gameEnded={gameEnded}
+          gameStarted={gameStarted}
+          shouldRestart={shouldRestart}
+        />
       </CSSTransitionGroup>
     );
   }

@@ -2,7 +2,6 @@ import React from "react";
 import injectSheet from "react-jss";
 import cx from "classnames";
 import CardGenerator from "./CardGenerator";
-import GameEnd from "./GameEnd";
 
 const style = {
   gameGrid: {
@@ -42,14 +41,12 @@ class GameCardGrid extends React.Component {
       activeCard,
       previousTwoCards,
       paused,
-      endGame,
       shouldRestart,
     } = this.props;
     const gridClasses = cx(classes.gameGrid, this.state.difficulty === "easy" && classes.easyGrid);
 
     return (
       <div className={gridClasses}>
-        {endGame && <GameEnd />}
         <CardGenerator
           difficulty={difficulty}
           shouldRestart={shouldRestart}

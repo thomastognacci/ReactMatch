@@ -2,6 +2,7 @@ import React, {PureComponent} from "react";
 import injectSheet from "react-jss";
 import {MuiThemeProvider} from "@material-ui/core/styles";
 
+import GameEnd from "./components/GameEnd";
 import MainTheme from "./components/ui/MainTheme";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
@@ -21,25 +22,34 @@ const style = {
 class App extends PureComponent {
   state = {
     gameStarted: false,
+    gameEnded: false,
+    gameDuration: 0,
     options: {
       difficulty: "easy",
     },
   };
+
   handleDifficultyChange = (e) => {
     const options = {...this.state.options};
     options.difficulty = e.target.value;
     this.setState({options});
   };
-  handleStart = (e) => {
+  handleGameDuration = (time) => {
+    this.setState({gameDuration: time});
+  };
+  handleEnd = () => {
+    this.setState({gameEnded: true});
+  };
+  handleStart = () => {
     this.setState({gameStarted: true});
   };
-  handleRestart = (e) => {
-    this.setState({shouldRestart: true});
+  handleRestart = () => {
+    this.setState({gameEnded: false, shouldRestart: true});
     setTimeout(() => this.setState({shouldRestart: false}));
   };
   render() {
     const {classes} = this.props;
-    const {options, gameStarted, shouldRestart} = this.state;
+    const {options, gameStarted, shouldRestart, gameEnded} = this.state;
 
     return (
       <MuiThemeProvider theme={MainTheme}>
@@ -52,15 +62,20 @@ class App extends PureComponent {
               handleRestart={this.handleRestart}
               handleDifficultyChange={this.handleDifficultyChange}
               gameStarted={gameStarted}
+              gameEnded={gameEnded}
+              shouldRestart={shouldRestart}
+              handleGameDuration={this.handleGameDuration}
             />
             <Game
               {...options}
               difficulty={options.difficulty}
               shouldRestart={shouldRestart}
               gameStarted={gameStarted}
+              handleEnd={this.handleEnd}
             />
           </div>
         </div>
+        {gameEnded && <GameEnd />}
       </MuiThemeProvider>
     );
   }

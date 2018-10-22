@@ -1,7 +1,7 @@
 import React from "react";
 import injectSheet from "react-jss";
 import Typography from "@material-ui/core/Typography";
-import {CSSTransitionGroup} from "react-transition-group";
+import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 
 const style = {
   myHeader: {
@@ -26,6 +26,8 @@ class Header extends React.Component {
           transitionName="site-title"
           transitionAppear={true}
           transitionAppearTimeout={1250}
+          transitionEnter={false}
+          transitionLeave={false}
         >
           <Typography variant="h1" gutterBottom={false}>
             <span aria-label="brain-emoji" role="img">

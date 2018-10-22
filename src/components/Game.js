@@ -46,13 +46,7 @@ class Game extends React.Component {
       cardList[index].revealed = true;
       cardList[this.state.activeCard.index].revealed = true;
       if (revealedCount === cardList.length) {
-        return this.setState({
-          activeCard: {},
-          cardList,
-          clickCount: 0,
-          revealedCount,
-          endGame: true,
-        });
+        this.props.handleEnd();
       }
       return this.setState({activeCard: {}, cardList, clickCount: 0, revealedCount});
     }
@@ -90,15 +84,7 @@ class Game extends React.Component {
     return null;
   }
   render() {
-    const {
-      cardList,
-      displayCards,
-      activeCard,
-      previousTwoCards,
-      paused,
-      endGame,
-      difficulty,
-    } = this.state;
+    const {cardList, displayCards, activeCard, previousTwoCards, paused, difficulty} = this.state;
     const {shouldRestart, classes, gameStarted} = this.props;
     return (
       <div className={classes.gameCT}>
@@ -113,7 +99,6 @@ class Game extends React.Component {
               displayCards={displayCards}
               cardList={cardList}
               difficulty={difficulty}
-              endGame={endGame}
               shouldRestart={shouldRestart}
             />
           ) : (
