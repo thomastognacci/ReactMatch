@@ -17,7 +17,7 @@ class GameEnd extends React.Component {
     const size = {
       width: window.innerWidth,
       height: window.innerHeight,
-      numberOfPieces: 350,
+      numberOfPieces: 250,
     };
     const {classes} = this.props;
     return (

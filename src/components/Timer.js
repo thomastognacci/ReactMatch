@@ -37,7 +37,7 @@ class Timer extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.gameStarted) {
+    if (!prevProps.gameStarted && this.props.gameStarted) {
       this.handleTimer();
     }
     if (prevProps.shouldRestart) {
