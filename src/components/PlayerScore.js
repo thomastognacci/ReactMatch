@@ -16,7 +16,7 @@ class PlayerScore extends React.Component {
   };
   updateScore() {
     const oldScore = this.state.score;
-    let difficultyMultiplier;
+    let difficultyMultiplier = 1;
     if (this.props.difficulty === "medium") {
       difficultyMultiplier = 20;
     } else if (this.props.difficulty === "hard") {
