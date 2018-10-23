@@ -45,6 +45,12 @@ class PlayerScore extends React.Component {
     }
     return "cheater!";
   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.shouldRestart) {
+      return {score: 0};
+    }
+    return null;
+  }
   componentDidUpdate(prevProps) {
     if (prevProps.pairRevealedCount !== this.props.pairRevealedCount) {
       this.updateScore();
@@ -67,5 +73,6 @@ PlayerScore.propTypes = {
   totalClickCount: PropTypes.number.isRequired,
   gameDuration: PropTypes.number.isRequired,
   difficulty: PropTypes.string.isRequired,
+  shouldRestart: PropTypes.bool.isRequired,
 };
 export default injectSheet(style)(PlayerScore);

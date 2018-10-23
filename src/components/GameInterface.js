@@ -44,6 +44,7 @@ class GameInterface extends React.Component {
           totalClickCount={totalClickCount}
           difficulty={difficulty}
           gameDuration={gameDuration}
+          shouldRestart={shouldRestart}
         />
       </div>
     );
