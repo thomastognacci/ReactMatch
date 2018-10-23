@@ -1,4 +1,4 @@
-import React from "react";
+import React, {PureComponent} from "react";
 import injectSheet from "react-jss";
 import Typography from "@material-ui/core/Typography";
 import PropTypes from "prop-types";
@@ -19,40 +19,58 @@ const style = {
 };
 
 const initialState = {
-  endGame: false,
-  cardList: [],
   activeCard: {card: "", index: -1},
-  previousTwoCards: [],
-  revealedCount: 0,
+  cardList: [],
   clickCount: 0,
   displayCards: false,
+  endGame: false,
+  gameDuration: 0,
+  pairRevealedCount: 0,
+  previousTwoCards: [],
+  totalClickCount: 0,
 };
-class Game extends React.Component {
-  state = {};
+class Game extends PureComponent {
+  state = {
+    activeCard: {card: "", index: -1},
+    cardList: [],
+    clickCount: 0,
+    displayCards: false,
+    endGame: false,
+    gameDuration: 0,
+    pairRevealedCount: 0,
+    previousTwoCards: [],
+    totalClickCount: 0,
+    difficulty: this.props.difficulty,
+  };
 
   handleCardGeneration = (cardList) => {
     this.setState({cardList, displayCards: true});
   };
 
+  handleGameDuration = (time) => {
+    this.setState({gameDuration: time});
+  };
+
   handleCardClicks = (card, index) => {
     // Unpause the game if click happens before the timeout
     clearTimeout(window["timeoutIdGamePaused"]);
-    this.setState({previousTwoCards: []});
+    const totalClickCount = this.state.totalClickCount + 1;
+    this.setState({previousTwoCards: [], totalClickCount});
 
     // Win
     if (card === this.state.activeCard.card && index !== this.state.activeCard.index) {
       const cardList = [...this.state.cardList];
-      const revealedCount = this.state.revealedCount + 2;
+      const pairRevealedCount = this.state.pairRevealedCount + 2;
       cardList[index].revealed = true;
       cardList[this.state.activeCard.index].revealed = true;
-      if (revealedCount === cardList.length) {
+      if (pairRevealedCount === cardList.length) {
         this.props.handleEnd();
       }
       return this.setState({
         activeCard: {card: "", index: -1},
         cardList,
         clickCount: 0,
-        revealedCount,
+        pairRevealedCount,
       });
     }
     // Lost this round
@@ -68,19 +86,13 @@ class Game extends React.Component {
       }, 1500);
       return window["timeoutIdGamePaused"];
     }
-    // One more click
+    // One more click possible
     this.setState((prevState) => ({
       activeCard: {card, index},
       clickCount: prevState.clickCount + 1,
     }));
   };
 
-  componentDidMount() {
-    this.setState({
-      ...initialState,
-      difficulty: this.props.difficulty,
-    });
-  }
   componentDidUpdate(prevProps) {
     if (!this.props.gameStarted && prevProps.difficulty !== this.props.difficulty) {
       this.setState({...initialState, difficulty: this.props.difficulty});
@@ -93,8 +105,16 @@ class Game extends React.Component {
     return null;
   }
   render() {
-    const {cardList, displayCards, activeCard, previousTwoCards, difficulty} = this.state;
-    const {shouldRestart, classes, gameStarted, gameEnded, handleGameDuration} = this.props;
+    const {
+      cardList,
+      displayCards,
+      activeCard,
+      previousTwoCards,
+      difficulty,
+      totalClickCount,
+      pairRevealedCount,
+    } = this.state;
+    const {shouldRestart, classes, gameStarted, gameEnded} = this.props;
     return (
       <div className={classes.gameCT}>
         <div className={classes.game}>
@@ -117,7 +137,10 @@ class Game extends React.Component {
           gameStarted={gameStarted}
           gameEnded={gameEnded}
           shouldRestart={shouldRestart}
-          handleGameDuration={handleGameDuration}
+          handleGameDuration={this.handleGameDuration}
+          totalClickCount={totalClickCount}
+          pairRevealedCount={pairRevealedCount}
+          difficulty={difficulty}
         />
       </div>
     );
@@ -128,6 +151,5 @@ Game.propTypes = {
   shouldRestart: PropTypes.bool.isRequired,
   gameStarted: PropTypes.bool.isRequired,
   gameEnded: PropTypes.bool.isRequired,
-  handleGameDuration: PropTypes.func.isRequired,
 };
 export default injectSheet(style)(Game);

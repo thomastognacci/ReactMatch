@@ -3,21 +3,16 @@ import injectSheet from "react-jss";
 import PropTypes from "prop-types";
 
 const style = {
+  timerContainer: {
+    flex: "1",
+  },
   timer: {
-    marginTop: "auto",
-    color: "#FFFFFF",
-    padding: "1rem",
-    textAlign: "center",
-    fontWeight: "bold",
-    fontFamily: "monospace",
-    fontSize: "1.25em",
-    background: "linear-gradient(to top right, #6e7bca, #673ab7)",
+    padding: ".5em",
   },
 };
 
 class Timer extends React.Component {
   state = {
-    running: false,
     time: 0,
   };
   handleTimer = (command) => {
@@ -26,7 +21,7 @@ class Timer extends React.Component {
     }
     const startTime = Date.now();
     this.timer = setInterval(() => {
-      this.setState({running: true, time: Date.now() - startTime});
+      this.setState({time: Date.now() - startTime});
     }, 100);
   };
 
@@ -37,14 +32,6 @@ class Timer extends React.Component {
     return `${min > 9 ? "" : "0"}${min} : ${sec > 9 ? "" : "0"}${sec} : ${ms}`;
   };
 
-  componentDidUpdate(prevProps) {
-    if (!prevProps.gameStarted && this.props.gameStarted) {
-      this.handleTimer();
-    }
-    if (prevProps.shouldRestart) {
-      this.handleTimer("restart");
-    }
-  }
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.gameEnded) {
       clearInterval(this.timer);
@@ -53,6 +40,16 @@ class Timer extends React.Component {
     }
     return true;
   }
+
+  componentDidUpdate(prevProps) {
+    if (!prevProps.gameStarted && this.props.gameStarted) {
+      this.handleTimer();
+    }
+    if (prevProps.shouldRestart) {
+      this.handleTimer("restart");
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.timer);
   }
@@ -61,7 +58,12 @@ class Timer extends React.Component {
     const {classes} = this.props;
     const {time} = this.state;
 
-    return <div className={classes.timer}>{this.formatTime(time)}</div>;
+    return (
+      <div className={classes.timerContainer}>
+        Time
+        <div className={classes.timer}>{this.formatTime(time)}</div>
+      </div>
+    );
   }
 }
 

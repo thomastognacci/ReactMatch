@@ -1,10 +1,22 @@
 import React from "react";
 import injectSheet from "react-jss";
-import Timer from "./Timer";
 import PropTypes from "prop-types";
 
+import Timer from "./Timer";
+import PlayerScore from "./PlayerScore";
+
 const style = {
-  gameUI: {},
+  gameUI: {
+    display: "flex",
+    marginTop: "auto",
+    color: "#FFFFFF",
+    padding: "1rem",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontFamily: "monospace",
+    fontSize: "1.25em",
+    background: "linear-gradient(to top right, #6e7bca, #673ab7)",
+  },
 };
 class GameInterface extends React.Component {
   render() {
@@ -17,6 +29,7 @@ class GameInterface extends React.Component {
           gameStarted={gameStarted}
           shouldRestart={shouldRestart}
         />
+        <PlayerScore />
       </div>
     );
   }
@@ -27,6 +40,9 @@ GameInterface.propTypes = {
   gameEnded: PropTypes.bool.isRequired,
   gameStarted: PropTypes.bool.isRequired,
   shouldRestart: PropTypes.bool.isRequired,
+  pairRevealedCount: PropTypes.number.isRequired,
+  totalClickCount: PropTypes.number.isRequired,
+  difficulty: PropTypes.string.isRequired,
 };
 
 export default injectSheet(style)(GameInterface);

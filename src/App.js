@@ -23,7 +23,6 @@ class App extends PureComponent {
   state = {
     gameStarted: false,
     gameEnded: false,
-    gameDuration: 0,
     shouldRestart: false,
     options: {
       difficulty: "easy",
@@ -34,9 +33,6 @@ class App extends PureComponent {
     const options = {...this.state.options};
     options.difficulty = e.target.value;
     this.setState({options});
-  };
-  handleGameDuration = (time) => {
-    this.setState({gameDuration: time});
   };
   handleEnd = () => {
     this.setState({gameEnded: true});
@@ -58,19 +54,17 @@ class App extends PureComponent {
           <Header />
           <div className={classes.pageCT}>
             <Menu
-              {...options}
+              difficulty={options.difficulty}
               handleStart={this.handleStart}
               handleRestart={this.handleRestart}
               handleDifficultyChange={this.handleDifficultyChange}
               gameStarted={gameStarted}
             />
             <Game
-              {...options}
               difficulty={options.difficulty}
               shouldRestart={shouldRestart}
               gameStarted={gameStarted}
               handleEnd={this.handleEnd}
-              handleGameDuration={this.handleGameDuration}
               gameEnded={gameEnded}
             />
           </div>

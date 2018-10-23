@@ -62,7 +62,6 @@ class GameCard extends React.Component {
           <CardContent className={classes.cardContent}>
             <span aria-label="emoji" role="img">
               {revealed || isActive || previouslyActive ? cardContent : "?"}
-              {/* {content} */}
             </span>
           </CardContent>
         </CardActionArea>
