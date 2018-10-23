@@ -1,5 +1,6 @@
 import React from "react";
 import injectSheet from "react-jss";
+import PropTypes from "prop-types";
 
 const style = {
   timer: {
@@ -63,5 +64,9 @@ class Timer extends React.Component {
     return <div className={classes.timer}>{this.formatTime(time)}</div>;
   }
 }
+
+Timer.propTypes = {
+  handleGameDuration: PropTypes.func.isRequired,
+};
 
 export default injectSheet(style)(Timer);

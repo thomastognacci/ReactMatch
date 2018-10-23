@@ -1,9 +1,11 @@
 import React from "react";
 import injectSheet from "react-jss";
+import cx from "classnames";
 import Card from "@material-ui/core/Card";
+import PropTypes from "prop-types";
+
 import CardContent from "@material-ui/core/CardContent";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import cx from "classnames";
 
 const style = {
   card: {
@@ -44,15 +46,14 @@ class GameCard extends React.Component {
   handleClick = () => {
     const {isActive, revealed} = this.props;
     if (isActive || revealed) return;
-    this.props.handleCardClicks(this.props.content, this.props.index);
+    this.props.handleCardClicks(this.props.cardContent, this.props.index);
   };
   render() {
-    const {classes, content, isActive, previouslyActive, revealed, paused} = this.props;
+    const {classes, cardContent, isActive, previouslyActive, revealed} = this.props;
     const cardClasses = cx(
       classes.card,
       isActive && classes.cardActive,
       previouslyActive && classes.wrongChoice,
-      paused && classes.gamePaused,
     );
 
     return (
@@ -64,7 +65,7 @@ class GameCard extends React.Component {
         <CardActionArea className={classes.cardActionArea}>
           <CardContent className={classes.cardContent}>
             <span aria-label="emoji" role="img">
-              {revealed || isActive || previouslyActive ? content : "?"}
+              {revealed || isActive || previouslyActive ? cardContent : "?"}
               {/* {content} */}
             </span>
           </CardContent>
@@ -73,5 +74,12 @@ class GameCard extends React.Component {
     );
   }
 }
+
+GameCard.propTypes = {
+  cardContent: PropTypes.string.isRequired,
+  isActive: PropTypes.bool.isRequired,
+  previouslyActive: PropTypes.bool.isRequired,
+  revealed: PropTypes.bool.isRequired,
+};
 
 export default injectSheet(style)(GameCard);
