@@ -83,12 +83,12 @@ class Game extends React.Component {
   }
   componentDidUpdate(prevProps) {
     if (!this.props.gameStarted && prevProps.difficulty !== this.props.difficulty) {
-      this.setState({initialState, difficulty: this.props.difficulty});
+      this.setState({...initialState, difficulty: this.props.difficulty});
     }
   }
   static getDerivedStateFromProps(props, state) {
     if (props.shouldRestart) {
-      return {initialState, difficulty: props.difficulty};
+      return {...initialState, difficulty: props.difficulty};
     }
     return null;
   }

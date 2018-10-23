@@ -23,15 +23,6 @@ const style = {
 };
 
 class GameCardGrid extends React.Component {
-  state = {
-    difficulty: this.props.difficulty,
-  };
-  static getDerivedStateFromProps(props, state) {
-    if (props.shouldRestart) {
-      return {difficulty: props.difficulty};
-    }
-    return null;
-  }
   render() {
     const {
       classes,
@@ -44,7 +35,7 @@ class GameCardGrid extends React.Component {
       previousTwoCards,
       shouldRestart,
     } = this.props;
-    const gridClasses = cx(classes.gameGrid, this.state.difficulty === "easy" && classes.easyGrid);
+    const gridClasses = cx(classes.gameGrid, difficulty === "easy" && classes.easyGrid);
 
     return (
       <div className={gridClasses}>
