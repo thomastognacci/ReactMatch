@@ -7,6 +7,10 @@ import CardGenerator from "./CardGenerator";
 
 const style = {
   gameGrid: {
+    // TODO create a grid template for each level of difficulty
+    //* Easy 3x3, 1 empty cell in the middle
+    //* Medium 4x4
+    //* Hard 5x5
     display: "grid",
     maxWidth: "50em",
     margin: "auto",

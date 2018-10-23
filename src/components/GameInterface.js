@@ -15,7 +15,7 @@ const style = {
     fontWeight: "bold",
     fontFamily: "monospace",
     fontSize: "1.25em",
-    background: "linear-gradient(to top right, #6e7bca, #673ab7)",
+    background: "linear-gradient(to top left, #6e7bca, #673ab7)",
   },
 };
 class GameInterface extends React.Component {
@@ -25,6 +25,7 @@ class GameInterface extends React.Component {
       handleGameDuration,
       gameEnded,
       gameStarted,
+      gameDuration,
       shouldRestart,
       pairRevealedCount,
       totalClickCount,
@@ -42,6 +43,7 @@ class GameInterface extends React.Component {
           pairRevealedCount={pairRevealedCount}
           totalClickCount={totalClickCount}
           difficulty={difficulty}
+          gameDuration={gameDuration}
         />
       </div>
     );
@@ -52,6 +54,7 @@ GameInterface.propTypes = {
   handleGameDuration: PropTypes.func.isRequired,
   gameEnded: PropTypes.bool.isRequired,
   gameStarted: PropTypes.bool.isRequired,
+  gameDuration: PropTypes.number.isRequired,
   shouldRestart: PropTypes.bool.isRequired,
   pairRevealedCount: PropTypes.number.isRequired,
   totalClickCount: PropTypes.number.isRequired,

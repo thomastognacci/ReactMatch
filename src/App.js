@@ -25,7 +25,7 @@ class App extends PureComponent {
     gameEnded: false,
     shouldRestart: false,
     options: {
-      difficulty: "easy",
+      difficulty: "easy", // TODO replace this string with a number
     },
   };
 

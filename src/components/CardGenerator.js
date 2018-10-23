@@ -15,10 +15,10 @@ class CardGenerator extends React.Component {
         this.generateCards(50);
         break;
       case "medium":
-        this.generateCards(24);
+        this.generateCards(16);
         break;
       default:
-        this.generateCards(12);
+        this.generateCards(8);
         break;
     }
   };
@@ -90,6 +90,7 @@ class CardGenerator extends React.Component {
 
     const {displayCards} = this.state;
 
+    // TODO Add CSS transition on start and restart
     if (displayCards && cardList) {
       const listOfCards = cardList.map((card, index) => (
         <GameCard

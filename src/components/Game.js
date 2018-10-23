@@ -113,6 +113,7 @@ class Game extends PureComponent {
       difficulty,
       totalClickCount,
       pairRevealedCount,
+      gameDuration,
     } = this.state;
     const {shouldRestart, classes, gameStarted, gameEnded} = this.props;
     return (
@@ -138,6 +139,7 @@ class Game extends PureComponent {
           gameEnded={gameEnded}
           shouldRestart={shouldRestart}
           handleGameDuration={this.handleGameDuration}
+          gameDuration={gameDuration}
           totalClickCount={totalClickCount}
           pairRevealedCount={pairRevealedCount}
           difficulty={difficulty}

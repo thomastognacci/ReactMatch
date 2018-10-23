@@ -16,15 +16,21 @@ class PlayerScore extends React.Component {
   };
   updateScore() {
     const oldScore = this.state.score;
+
     let difficultyMultiplier = 1;
     if (this.props.difficulty === "medium") {
-      difficultyMultiplier = 20;
+      difficultyMultiplier = 3;
     } else if (this.props.difficulty === "hard") {
-      difficultyMultiplier = 50;
+      difficultyMultiplier = 8;
     }
+
+    // Less than 60 seconds gives you a speed bonus ( e.g. x6 is you beat the game in 10s )
+    let speedMultiplier = 1 + (6 - this.props.gameDuration / 10000);
+    let speedBonus = speedMultiplier > 1 ? speedMultiplier : 1;
+
     const pointsScored =
-      difficultyMultiplier * this.props.pairRevealedCount * 5250 -
-      this.props.totalClickCount * 1250;
+      speedBonus * difficultyMultiplier * this.props.pairRevealedCount * 2250 -
+      this.props.totalClickCount * 750;
     const score = pointsScored < 0 ? oldScore : oldScore + pointsScored;
     this.setState({score});
   }
@@ -59,6 +65,7 @@ class PlayerScore extends React.Component {
 PlayerScore.propTypes = {
   pairRevealedCount: PropTypes.number.isRequired,
   totalClickCount: PropTypes.number.isRequired,
+  gameDuration: PropTypes.number.isRequired,
   difficulty: PropTypes.string.isRequired,
 };
 export default injectSheet(style)(PlayerScore);
