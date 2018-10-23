@@ -57,12 +57,8 @@ class GameCard extends React.Component {
     );
 
     return (
-      <Card
-        raised={!this.props.revealed && true}
-        onClick={this.handleClick}
-        className={cardClasses}
-      >
-        <CardActionArea className={classes.cardActionArea}>
+      <Card raised={!revealed} onClick={this.handleClick} className={cardClasses}>
+        <CardActionArea disabled={isActive || revealed} className={classes.cardActionArea}>
           <CardContent className={classes.cardContent}>
             <span aria-label="emoji" role="img">
               {revealed || isActive || previouslyActive ? cardContent : "?"}
