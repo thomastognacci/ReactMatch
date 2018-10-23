@@ -20,7 +20,16 @@ const style = {
 };
 class GameInterface extends React.Component {
   render() {
-    const {classes, handleGameDuration, gameEnded, gameStarted, shouldRestart} = this.props;
+    const {
+      classes,
+      handleGameDuration,
+      gameEnded,
+      gameStarted,
+      shouldRestart,
+      pairRevealedCount,
+      totalClickCount,
+      difficulty,
+    } = this.props;
     return (
       <div className={classes.gameUI}>
         <Timer
@@ -29,7 +38,11 @@ class GameInterface extends React.Component {
           gameStarted={gameStarted}
           shouldRestart={shouldRestart}
         />
-        <PlayerScore />
+        <PlayerScore
+          pairRevealedCount={pairRevealedCount}
+          totalClickCount={totalClickCount}
+          difficulty={difficulty}
+        />
       </div>
     );
   }

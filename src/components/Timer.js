@@ -29,7 +29,7 @@ class Timer extends React.Component {
     let ms = Math.floor((time / 100) % 10);
     let sec = Math.floor((time / 1000) % 60);
     let min = Math.floor(time / 60000);
-    return `${min > 9 ? "" : "0"}${min} : ${sec > 9 ? "" : "0"}${sec} : ${ms}`;
+    return `${min > 9 ? "" : "0"}${min} : ${sec > 9 ? "" : "0"}${sec} : ${ms}0`;
   };
 
   shouldComponentUpdate(nextProps, nextState) {
