@@ -1,7 +1,8 @@
 import React from "react";
 import {emojiFullList} from "../list-of-cards";
-import GameCard from "./GameCard";
+import PropTypes from "prop-types";
 
+import GameCard from "./GameCard";
 class CardGenerator extends React.Component {
   state = {
     displayCards: false,
@@ -61,8 +62,8 @@ class CardGenerator extends React.Component {
       return newArray;
     }
     const shuffledList = shuffle(emojiListDoubled);
-    const cardList = shuffledList.map((content) => {
-      return {card: content, revealed: false, clicked: false};
+    const cardList = shuffledList.map((cardContent) => {
+      return {card: cardContent, revealed: false, clicked: false};
     });
     this.props.handleCardGeneration(cardList);
   };
@@ -85,26 +86,18 @@ class CardGenerator extends React.Component {
   }
 
   render() {
-    const {
-      difficulty,
-      paused,
-      handleCardClicks,
-      cardList,
-      activeCard,
-      previousTwoCards,
-    } = this.props;
+    const {cardList, activeCard, difficulty, handleCardClicks, previousTwoCards} = this.props;
 
     const {displayCards} = this.state;
 
     if (displayCards && cardList) {
       const listOfCards = cardList.map((card, index) => (
         <GameCard
-          paused={paused}
           difficulty={difficulty}
           handleCardClicks={handleCardClicks}
           key={index}
           index={index}
-          content={card.card}
+          cardContent={card.card}
           revealed={card.revealed}
           previouslyActive={Boolean(previousTwoCards.indexOf(index) !== -1)}
           isActive={Boolean(activeCard.index === index)}
@@ -116,4 +109,14 @@ class CardGenerator extends React.Component {
   }
 }
 
+CardGenerator.propTypes = {
+  activeCard: PropTypes.exact({
+    card: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+  }),
+  cardList: PropTypes.array.isRequired,
+  difficulty: PropTypes.string.isRequired,
+  handleCardClicks: PropTypes.func.isRequired,
+  previousTwoCards: PropTypes.array.isRequired,
+};
 export default CardGenerator;

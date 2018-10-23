@@ -1,6 +1,8 @@
 import React from "react";
 import injectSheet from "react-jss";
 import cx from "classnames";
+import PropTypes from "prop-types";
+
 import CardGenerator from "./CardGenerator";
 
 const style = {
@@ -32,15 +34,14 @@ class GameCardGrid extends React.Component {
   }
   render() {
     const {
+      classes,
       handleCardGeneration,
       handleCardClicks,
-      classes,
       cardList,
       displayCards,
       difficulty,
       activeCard,
       previousTwoCards,
-      paused,
       shouldRestart,
     } = this.props;
     const gridClasses = cx(classes.gameGrid, this.state.difficulty === "easy" && classes.easyGrid);
@@ -50,7 +51,6 @@ class GameCardGrid extends React.Component {
         <CardGenerator
           difficulty={difficulty}
           shouldRestart={shouldRestart}
-          paused={paused}
           handleCardClicks={handleCardClicks}
           handleCardGeneration={handleCardGeneration}
           cardList={cardList}
@@ -63,4 +63,17 @@ class GameCardGrid extends React.Component {
   }
 }
 
+GameCardGrid.propTypes = {
+  handleCardGeneration: PropTypes.func.isRequired,
+  handleCardClicks: PropTypes.func.isRequired,
+  cardList: PropTypes.array.isRequired,
+  displayCards: PropTypes.bool.isRequired,
+  difficulty: PropTypes.string.isRequired,
+  activeCard: PropTypes.exact({
+    card: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+  }),
+  previousTwoCards: PropTypes.array.isRequired,
+  shouldRestart: PropTypes.bool.isRequired,
+};
 export default injectSheet(style)(GameCardGrid);
