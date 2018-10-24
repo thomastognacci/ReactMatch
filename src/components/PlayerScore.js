@@ -10,7 +10,7 @@ const style = {
     padding: ".5em",
   },
 };
-class PlayerScore extends React.Component {
+class PlayerScore extends React.PureComponent {
   state = {
     score: 0,
   };
@@ -23,7 +23,6 @@ class PlayerScore extends React.Component {
     } else if (this.props.difficulty === "hard") {
       difficultyMultiplier = 8;
     }
-
     // Less than 60 seconds gives you a speed bonus ( e.g. x6 is you beat the game in 10s )
     let speedMultiplier = 1 + (6 - this.props.gameDuration / 10000);
     let speedBonus = speedMultiplier > 1 ? speedMultiplier : 1;
@@ -45,15 +44,19 @@ class PlayerScore extends React.Component {
     }
     return "cheater!";
   }
+
   static getDerivedStateFromProps(props, state) {
     if (props.shouldRestart) {
       return {score: 0};
     }
     return null;
   }
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (prevProps.pairRevealedCount !== this.props.pairRevealedCount) {
       this.updateScore();
+    }
+    if (this.props.shouldRestart || this.props.gameEnded) {
+      this.props.handleScoreUpdate(prevState.score);
     }
   }
   render() {
@@ -74,5 +77,7 @@ PlayerScore.propTypes = {
   gameDuration: PropTypes.number.isRequired,
   difficulty: PropTypes.string.isRequired,
   shouldRestart: PropTypes.bool.isRequired,
+  gameEnded: PropTypes.bool.isRequired,
+  handleScoreUpdate: PropTypes.func.isRequired,
 };
 export default injectSheet(style)(PlayerScore);

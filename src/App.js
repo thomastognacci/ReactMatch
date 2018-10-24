@@ -24,11 +24,14 @@ class App extends PureComponent {
     gameStarted: false,
     gameEnded: false,
     shouldRestart: false,
+    lastGameScore: 0,
     options: {
       difficulty: "easy", // TODO replace this string with a number
     },
   };
-
+  handleScoreUpdate = (lastGameScore) => {
+    this.setState({lastGameScore});
+  };
   handleDifficultyChange = (e) => {
     const options = {...this.state.options};
     options.difficulty = e.target.value;
@@ -46,7 +49,7 @@ class App extends PureComponent {
   };
   render() {
     const {classes} = this.props;
-    const {options, gameStarted, shouldRestart, gameEnded} = this.state;
+    const {options, lastGameScore, gameStarted, shouldRestart, gameEnded} = this.state;
 
     return (
       <MuiThemeProvider theme={MainTheme}>
@@ -59,6 +62,7 @@ class App extends PureComponent {
               handleRestart={this.handleRestart}
               handleDifficultyChange={this.handleDifficultyChange}
               gameStarted={gameStarted}
+              lastGameScore={lastGameScore}
             />
             <Game
               difficulty={options.difficulty}
@@ -66,6 +70,7 @@ class App extends PureComponent {
               gameStarted={gameStarted}
               handleEnd={this.handleEnd}
               gameEnded={gameEnded}
+              handleScoreUpdate={this.handleScoreUpdate}
             />
           </div>
         </div>

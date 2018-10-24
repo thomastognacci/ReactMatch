@@ -30,6 +30,7 @@ class GameInterface extends React.Component {
       pairRevealedCount,
       totalClickCount,
       difficulty,
+      handleScoreUpdate,
     } = this.props;
     return (
       <div className={classes.gameUI}>
@@ -40,6 +41,8 @@ class GameInterface extends React.Component {
           shouldRestart={shouldRestart}
         />
         <PlayerScore
+          gameEnded={gameEnded}
+          handleScoreUpdate={handleScoreUpdate}
           pairRevealedCount={pairRevealedCount}
           totalClickCount={totalClickCount}
           difficulty={difficulty}

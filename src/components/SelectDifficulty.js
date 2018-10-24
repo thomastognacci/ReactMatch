@@ -10,6 +10,9 @@ const style = {
     border: "1px solid #673ab7",
     padding: "1em",
   },
+  formGroup: {
+    display: "block",
+  },
 };
 class SelectDifficulty extends React.Component {
   render() {
@@ -20,11 +23,12 @@ class SelectDifficulty extends React.Component {
         <RadioGroup
           aria-label="Difficulty"
           name="Difficulty"
+          className={classes.formGroup}
           value={this.props.difficulty}
           onChange={handleDifficultyChange}
         >
           <FormControlLabel value="easy" control={<Radio color="primary" />} label="Easy" />
-          <FormControlLabel value="medium" control={<Radio color="primary" />} label="Medium" />
+          <FormControlLabel value="medium" control={<Radio color="primary" />} label="Med." />
           <FormControlLabel value="hard" control={<Radio color="primary" />} label="Hard" />
         </RadioGroup>
       </fieldset>

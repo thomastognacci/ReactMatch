@@ -43,6 +43,10 @@ class Game extends PureComponent {
     difficulty: this.props.difficulty,
   };
 
+  handleScoreUpdate = (score) => {
+    this.setState({score});
+  };
+
   handleCardGeneration = (cardList) => {
     this.setState({cardList, displayCards: true});
   };
@@ -115,7 +119,7 @@ class Game extends PureComponent {
       pairRevealedCount,
       gameDuration,
     } = this.state;
-    const {shouldRestart, classes, gameStarted, gameEnded} = this.props;
+    const {shouldRestart, classes, gameStarted, gameEnded, handleScoreUpdate} = this.props;
     return (
       <div className={classes.gameCT}>
         <div className={classes.game}>
@@ -143,6 +147,7 @@ class Game extends PureComponent {
           totalClickCount={totalClickCount}
           pairRevealedCount={pairRevealedCount}
           difficulty={difficulty}
+          handleScoreUpdate={handleScoreUpdate}
         />
       </div>
     );

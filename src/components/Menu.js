@@ -9,12 +9,13 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
+import Scoreboard from "./Scoreboard";
+import MenuLinks from "./MenuLinks";
 import SelectDifficulty from "./SelectDifficulty";
 
 const style = {
   mainMenu: {
-    flex: "0 0 20%",
-
+    flexShrink: "0",
     color: "#673ab7",
     borderRight: "3px solid",
     borderRightColor: "#673ab7",
@@ -34,6 +35,7 @@ class Menu extends React.Component {
       handleRestart,
       handleStart,
       gameStarted,
+      lastGameScore,
     } = this.props;
     return (
       <CSSTransitionGroup
@@ -50,7 +52,7 @@ class Menu extends React.Component {
             difficulty={difficulty}
             handleDifficultyChange={handleDifficultyChange}
           />
-          <ExpansionPanel elevation="0">
+          <ExpansionPanel elevation={0}>
             <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
               More Options
             </ExpansionPanelSummary>
@@ -74,6 +76,8 @@ class Menu extends React.Component {
             </Button>
           )}
         </div>
+        <Scoreboard lastGameScore={lastGameScore} />
+        <MenuLinks />
       </CSSTransitionGroup>
     );
   }
@@ -85,5 +89,6 @@ Menu.propTypes = {
   handleDifficultyChange: PropTypes.func.isRequired,
   difficulty: PropTypes.string.isRequired,
   gameStarted: PropTypes.bool.isRequired,
+  lastGameScore: PropTypes.number.isRequired,
 };
 export default injectSheet(style)(Menu);
