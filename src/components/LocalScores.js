@@ -64,7 +64,7 @@ class LocalScores extends React.Component {
     }
   }
   render() {
-    return this.localScoreboard();
+    return this.renderLocalScoreboard();
   }
 }
 
