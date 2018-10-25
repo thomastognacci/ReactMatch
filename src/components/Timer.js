@@ -35,9 +35,9 @@ class Timer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.gameEnded) {
       clearInterval(this.timer);
-      this.props.handleGameDuration(this.state.time);
       return false;
     }
+    this.props.handleGameDuration(this.state.time);
     return true;
   }
 

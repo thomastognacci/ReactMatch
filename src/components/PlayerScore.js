@@ -1,6 +1,7 @@
 import React from "react";
 import injectSheet from "react-jss";
 import PropTypes from "prop-types";
+import {formatScore} from "../helpers/formatScore";
 
 const style = {
   scoreContainer: {
@@ -25,24 +26,16 @@ class PlayerScore extends React.PureComponent {
     }
     // Less than 60 seconds gives you a speed bonus ( e.g. x6 is you beat the game in 10s )
     let speedMultiplier = 1 + (6 - this.props.gameDuration / 10000);
+
     let speedBonus = speedMultiplier > 1 ? speedMultiplier : 1;
 
-    const pointsScored =
-      speedBonus * difficultyMultiplier * this.props.pairRevealedCount * 2250 -
-      this.props.totalClickCount * 750;
+    const pointsScored = Math.floor(
+      speedBonus * difficultyMultiplier * this.props.pairRevealedCount * 500 -
+        this.props.totalClickCount * 500,
+    );
+
     const score = pointsScored < 0 ? oldScore : oldScore + pointsScored;
     this.setState({score});
-  }
-  formatScore(score) {
-    let scoreString = score.toString();
-    if (scoreString.length < 4) return score;
-    if (scoreString.length < 7) {
-      return `${scoreString.slice(0, -3)}.${scoreString.slice(-3)}`;
-    }
-    if (scoreString.length < 10) {
-      return `${scoreString.slice(-9, -6)}.${scoreString.slice(-6, -3)}.${scoreString.slice(-3)}`;
-    }
-    return "cheater!";
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -51,12 +44,19 @@ class PlayerScore extends React.PureComponent {
     }
     return null;
   }
-  componentDidUpdate(prevProps, prevState) {
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (prevState.score < this.state.score) {
+      return this.state.score;
+    }
+    return null;
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.pairRevealedCount !== this.props.pairRevealedCount) {
       this.updateScore();
     }
-    if (this.props.shouldRestart || this.props.gameEnded) {
-      this.props.handleScoreUpdate(prevState.score);
+    //! There is too many update here --- Review lifecycles - snapshot could probably be removed!
+    if ((prevState.shouldRestart || this.props.gameEnded) && snapshot) {
+      this.props.handleScoreUpdate(snapshot);
     }
   }
   render() {
@@ -65,7 +65,7 @@ class PlayerScore extends React.PureComponent {
     return (
       <div className={classes.scoreContainer}>
         Score
-        <div className={classes.playerScore}>{this.formatScore(this.state.score)}</div>
+        <div className={classes.playerScore}>{formatScore(this.state.score)}</div>
       </div>
     );
   }
