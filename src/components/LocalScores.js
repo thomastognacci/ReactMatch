@@ -5,8 +5,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import injectSheet from "react-jss";
 import PropTypes from "prop-types";
 import moment from "moment";
-import CSSTransition from "react-transition-group/CSSTransition";
-import TransitionGroup from "react-transition-group/TransitionGroup";
+import {CSSTransition, TransitionGroup} from "react-transition-group/";
 
 import {formatScore} from "../helpers/formatScore";
 
@@ -65,7 +64,13 @@ class LocalScores extends React.Component {
           })
           .map((score, index) => (
             // TODO figure out a way to animate new scores that replace old ones
-            <CSSTransition in appear key={index} timeout={500} classNames={"local-score"}>
+            <CSSTransition
+              in
+              appear={Boolean(index === 0)}
+              key={index}
+              timeout={500}
+              classNames={"local-score"}
+            >
               <List>
                 <ListItem dense>
                   <ListItemText primary={index + 1} className={classes.listItemText} />

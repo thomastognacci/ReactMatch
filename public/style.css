@@ -18,13 +18,15 @@ h1.site-title-appear-active {
     opacity: 1;
 }
 
+.local-score-enter,
 .local-score-appear {
     transform: translateX(100%);
     max-height: 0;
     padding: 0;
-    transition: padding .25s, max-height .25s, transform .25s .25s;
+    transition: padding .5s, max-height .5s, transform .25s .25s;
 }
 
+.local-score-enter-active,
 .local-score-appear-active {
     max-height: 100px;
     transform: translateX(0%);

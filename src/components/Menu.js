@@ -1,7 +1,6 @@
 import React from "react";
 import injectSheet from "react-jss";
 import PropTypes from "prop-types";
-import CSSTransitionGroup from "react-transition-group/CSSTransitionGroup";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
@@ -38,15 +37,7 @@ class Menu extends React.Component {
       lastGameScore,
     } = this.props;
     return (
-      <CSSTransitionGroup
-        component="div"
-        transitionName="site-menu"
-        transitionAppear={true}
-        transitionAppearTimeout={1000}
-        transitionEnter={false}
-        transitionLeave={false}
-        className={classes.mainMenu}
-      >
+      <div className={classes.mainMenu}>
         <div className={classes.topMenu}>
           <SelectDifficulty
             difficulty={difficulty}
@@ -78,7 +69,7 @@ class Menu extends React.Component {
         </div>
         <Scoreboard lastGameScore={lastGameScore} />
         <MenuLinks />
-      </CSSTransitionGroup>
+      </div>
     );
   }
 }
