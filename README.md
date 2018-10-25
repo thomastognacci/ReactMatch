@@ -4,7 +4,7 @@ Match 2 cards, win big.
 
 ## Demo
 
-Master branch is automatically deployed to: https://sleepy-blackwell-641d39.netlify.com/
+Master branch is automatically deployed to: https://memoji.netlify.com/
 
 ## Built with
 
