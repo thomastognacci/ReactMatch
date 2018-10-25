@@ -18,7 +18,7 @@ class CardGenerator extends React.Component {
         this.generateCards(16);
         break;
       default:
-        this.generateCards(8);
+        this.generateCards(2);
         break;
     }
   };

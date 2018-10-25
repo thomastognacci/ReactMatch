@@ -5,6 +5,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import injectSheet from "react-jss";
 import PropTypes from "prop-types";
 import moment from "moment";
+import CSSTransition from "react-transition-group/CSSTransition";
+import TransitionGroup from "react-transition-group/TransitionGroup";
 
 import {formatScore} from "../helpers/formatScore";
 
@@ -15,6 +17,9 @@ const style = {
   },
   listItemText: {
     flex: "0",
+  },
+  localScoresGroup: {
+    overflow: "hidden",
   },
 };
 
@@ -36,8 +41,11 @@ class LocalScores extends React.Component {
       return null;
     }
     if ((bestScore && lastGameScore >= bestScore.score) || !bestScore) {
+      thirdBestScore = secondBestScore;
+      secondBestScore = bestScore;
       bestScore = {score: lastGameScore, date: fromNow};
     } else if ((secondBestScore && lastGameScore >= secondBestScore.score) || !secondBestScore) {
+      thirdBestScore = secondBestScore;
       secondBestScore = {score: lastGameScore, date: fromNow};
     } else if ((thirdBestScore && lastGameScore >= thirdBestScore.score) || !thirdBestScore) {
       thirdBestScore = {score: lastGameScore, date: fromNow};
@@ -49,23 +57,25 @@ class LocalScores extends React.Component {
     const {bestScore, secondBestScore, thirdBestScore} = this.state;
     const {classes} = this.props;
     const scores = [bestScore, secondBestScore, thirdBestScore];
-
-    const listOfScore = scores
-      .filter((score) => {
-        return score !== null;
-      })
-      .map((score, index) => {
-        return (
-          <List key={index}>
-            <ListItem dense>
-              <ListItemText primary={index + 1} className={classes.listItemText} />
-              <ListItemText inset primary={formatScore(score.score)} secondary={score.date} />
-            </ListItem>
-          </List>
-        );
-      });
-
-    return <React.Fragment>{listOfScore}</React.Fragment>;
+    return (
+      <TransitionGroup component="div" className={classes.localScoresGroup}>
+        {scores
+          .filter((score) => {
+            return score !== null;
+          })
+          .map((score, index) => (
+            // TODO figure out a way to animate new scores that replace old ones
+            <CSSTransition in appear key={index} timeout={500} classNames={"local-score"}>
+              <List>
+                <ListItem dense>
+                  <ListItemText primary={index + 1} className={classes.listItemText} />
+                  <ListItemText inset primary={formatScore(score.score)} secondary={score.date} />
+                </ListItem>
+              </List>
+            </CSSTransition>
+          ))}
+      </TransitionGroup>
+    );
   };
 
   componentDidUpdate(prevProps) {
