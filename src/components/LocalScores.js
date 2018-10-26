@@ -30,7 +30,7 @@ class LocalScores extends React.Component {
     secondBestScore: null,
     thirdBestScore: null,
   };
-  calculateScoreboard = (lastGameScore) => {
+  updateScoreboard = (lastGameScore) => {
     let {bestScore, secondBestScore, thirdBestScore} = this.state;
     const saveToLS = (state) => localStorage.setItem("memoji_scores", JSON.stringify(state));
     const now = moment();
@@ -66,7 +66,7 @@ class LocalScores extends React.Component {
             // TODO figure out a way to animate new scores that replace old ones
             <CSSTransition
               in
-              appear={Boolean(index === 0)}
+              appear={Boolean(this.state.bestScore)}
               key={index}
               timeout={500}
               classNames={"local-score"}
@@ -86,7 +86,7 @@ class LocalScores extends React.Component {
   componentDidUpdate(prevProps) {
     if (prevProps.lastGameScore !== this.props.lastGameScore) {
       this.setState({lastGameScore: this.props.lastGameScore}, () =>
-        this.calculateScoreboard(this.props.lastGameScore),
+        this.updateScoreboard(this.props.lastGameScore),
       );
     }
   }
