@@ -66,7 +66,7 @@ class Scoreboard extends React.Component {
   }
 
   render() {
-    const {classes, lastGameScore} = this.props;
+    const {classes} = this.props;
     const {localScores} = this.state;
     return (
       <React.Fragment>

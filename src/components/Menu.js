@@ -20,6 +20,18 @@ const style = {
     borderRightColor: "#673ab7",
     display: "flex",
     flexDirection: "column",
+
+    "@media (max-width: 60em)": {
+      position: "fixed",
+      background: "#FFF",
+      zIndex: "1",
+      width: "100%",
+      // height: "100%",
+      border: "none",
+      transition: "transform .25s ease-out",
+      transform: (props) =>
+        props.menuOpen || !props.gameStarted ? "translateX(0)" : "translateX(100%)",
+    },
   },
   topMenu: {
     padding: "1rem",
@@ -81,5 +93,6 @@ Menu.propTypes = {
   difficulty: PropTypes.string.isRequired,
   gameStarted: PropTypes.bool.isRequired,
   lastGameScore: PropTypes.number.isRequired,
+  menuOpen: PropTypes.bool.isRequired,
 };
 export default injectSheet(style)(Menu);

@@ -1,6 +1,9 @@
 import React from "react";
 import injectSheet from "react-jss";
 import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import PropTypes from "prop-types";
 
 const style = {
   myHeader: {
@@ -15,10 +18,23 @@ const style = {
       fontSize: "2.5em",
     },
   },
+  menuIcon: {
+    fill: "#FFF",
+  },
+  menuButton: {
+    display: "none",
+    position: "absolute",
+    top: "1.75rem",
+    right: "2rem",
+
+    "@media (max-width: 60em)": {
+      display: "block",
+    },
+  },
 };
 class Header extends React.Component {
   render() {
-    const {classes} = this.props;
+    const {classes, handleMenuOpens} = this.props;
     return (
       <header className={classes.myHeader}>
         <Typography variant="h1" gutterBottom={false}>
@@ -30,9 +46,16 @@ class Header extends React.Component {
             🧠
           </span>
         </Typography>
+        <IconButton onClick={handleMenuOpens} className={classes.menuButton}>
+          <MenuIcon className={classes.menuIcon} />
+        </IconButton>
       </header>
     );
   }
 }
+
+Header.propTypes = {
+  handleMenuOpens: PropTypes.func.isRequired,
+};
 
 export default injectSheet(style)(Header);

@@ -25,12 +25,18 @@ class App extends PureComponent {
     gameEnded: false,
     shouldRestart: false,
     lastGameScore: 0,
+    menuOpen: false,
     options: {
       difficulty: "easy", // TODO replace this string with a number
     },
   };
   handleScoreUpdate = (lastGameScore) => {
     this.setState({lastGameScore});
+  };
+  handleMenuOpens = () => {
+    this.setState((prevState) => ({
+      menuOpen: !prevState.menuOpen,
+    }));
   };
   handleDifficultyChange = (e) => {
     const options = {...this.state.options};
@@ -44,25 +50,27 @@ class App extends PureComponent {
     this.setState({gameStarted: true});
   };
   handleRestart = () => {
-    this.setState({gameEnded: false, shouldRestart: true});
+    this.setState({gameEnded: false, shouldRestart: true, menuOpen: false});
     setTimeout(() => this.setState({shouldRestart: false}));
   };
   render() {
     const {classes} = this.props;
-    const {options, lastGameScore, gameStarted, shouldRestart, gameEnded} = this.state;
+    const {menuOpen, options, lastGameScore, gameStarted, shouldRestart, gameEnded} = this.state;
 
     return (
       <MuiThemeProvider theme={MainTheme}>
         <div className={classes.App}>
-          <Header />
+          <Header handleMenuOpens={this.handleMenuOpens} />
           <div className={classes.pageCT}>
             <Menu
+              menuOpen={menuOpen}
               difficulty={options.difficulty}
               handleStart={this.handleStart}
               handleRestart={this.handleRestart}
               handleDifficultyChange={this.handleDifficultyChange}
               gameStarted={gameStarted}
               lastGameScore={lastGameScore}
+              handleMenuOpens={this.handleMenuOpens}
             />
             <Game
               difficulty={options.difficulty}
