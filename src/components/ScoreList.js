@@ -65,7 +65,9 @@ class ScoreList extends React.Component {
 }
 
 ScoreList.propTypes = {
-  bestScore: PropTypes.number,
+  bestScore: PropTypes.object,
+  secondBestScore: PropTypes.object,
+  thirdBestScore: PropTypes.object,
 };
 
 export default injectSheet(style)(ScoreList);
