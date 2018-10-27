@@ -3,7 +3,7 @@ import ScoreList from "./ScoreList";
 
 class OnlineScores extends React.Component {
   render() {
-    const {children} = this.props;
+    // const {} = this.props;
     return <ScoreList online />;
   }
 }

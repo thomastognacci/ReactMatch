@@ -16,11 +16,13 @@ const style = {
     marginTop: "auto",
   },
 };
+
+const stateFromLS = JSON.parse(localStorage.getItem("memoji_scores"));
 class Scoreboard extends React.Component {
-  state = {
+  state = stateFromLS || {
     value: 0,
     lastGameScore: null,
-    local: {
+    localScores: {
       bestScore: null,
       secondBestScore: null,
       thirdBestScore: null,
@@ -29,7 +31,7 @@ class Scoreboard extends React.Component {
 
   updateLocalScores = () => {
     let {lastGameScore} = this.state;
-    let {bestScore, secondBestScore, thirdBestScore} = this.state.local;
+    let {bestScore, secondBestScore, thirdBestScore} = this.state.localScores;
     const saveToLS = (state) => localStorage.setItem("memoji_scores", JSON.stringify(state));
     const now = moment();
     const fromNow = now.fromNow();
@@ -47,7 +49,8 @@ class Scoreboard extends React.Component {
     } else if ((thirdBestScore && lastGameScore >= thirdBestScore.score) || !thirdBestScore) {
       thirdBestScore = {score: lastGameScore, date: fromNow};
     }
-    return this.setState({bestScore, secondBestScore, thirdBestScore}, () => saveToLS(this.state));
+    const localScores = {bestScore, secondBestScore, thirdBestScore};
+    return this.setState({localScores}, () => saveToLS(this.state));
   };
 
   handleChange = (event, value) => {
@@ -64,6 +67,7 @@ class Scoreboard extends React.Component {
 
   render() {
     const {classes, lastGameScore} = this.props;
+    const {localScores} = this.state;
     return (
       <React.Fragment>
         <Typography className={classes.scoreboard} variant="overline" align="center">
@@ -81,7 +85,7 @@ class Scoreboard extends React.Component {
           <Tab label="Online" />
         </Tabs>
         <SwipeableViews axis={"x"} index={this.state.value} onChangeIndex={this.handleChangeIndex}>
-          <ScoreList lastGameScore={lastGameScore} />
+          <ScoreList lastGameScore={lastGameScore} {...localScores} />
           <OnlineScores />
         </SwipeableViews>
       </React.Fragment>

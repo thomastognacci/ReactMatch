@@ -22,20 +22,21 @@ const style = {
 };
 
 class ScoreList extends React.Component {
-  renderLocalScoreboard = () => {
-    const {classes, bestScore, secondBestScore, thirdBestScore} = this.props;
+  renderScoreboard = () => {
+    const {classes} = this.props;
+    const {bestScore, secondBestScore, thirdBestScore} = this.props;
     const scores = [bestScore, secondBestScore, thirdBestScore];
     return (
       <TransitionGroup component="div" className={classes.ScoresGroup}>
         {scores
           .filter((score) => {
-            return score !== null;
+            return Boolean(score);
           })
           .map((score, index) => (
             // TODO figure out a way to animate new scores that replace old ones
             <CSSTransition
               in
-              appear={Boolean(this.state.bestScore)}
+              appear={Boolean(this.props.bestScore)}
               key={index}
               timeout={500}
               classNames={"local-score"}
@@ -54,7 +55,7 @@ class ScoreList extends React.Component {
   render() {
     const {classes, online, bestScore} = this.props;
     return bestScore ? (
-      this.renderLocalScoreboard()
+      this.renderScoreboard()
     ) : (
       <div className={classes.noScore}>
         No {online ? "online scores" : "score saved locally"}, yet.
