@@ -85,7 +85,7 @@ class Scoreboard extends React.Component {
           <Tab label="Online" />
         </Tabs>
         <SwipeableViews axis={"x"} index={this.state.value} onChangeIndex={this.handleChangeIndex}>
-          <ScoreList lastGameScore={lastGameScore} {...localScores} />
+          <ScoreList {...localScores} />
           <OnlineScores />
         </SwipeableViews>
       </React.Fragment>
