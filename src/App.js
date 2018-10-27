@@ -25,7 +25,7 @@ class App extends PureComponent {
     gameEnded: false,
     shouldRestart: false,
     lastGameScore: 0,
-    menuOpen: false,
+    menuOpen: true,
     options: {
       difficulty: "easy", // TODO replace this string with a number
     },
@@ -47,7 +47,7 @@ class App extends PureComponent {
     this.setState({gameEnded: true});
   };
   handleStart = () => {
-    this.setState({gameStarted: true});
+    this.setState({gameStarted: true, menuOpen: false});
   };
   handleRestart = () => {
     this.setState({gameEnded: false, shouldRestart: true, menuOpen: false});

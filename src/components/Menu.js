@@ -29,8 +29,7 @@ const style = {
       // height: "100%",
       border: "none",
       transition: "transform .25s ease-out",
-      transform: (props) =>
-        props.menuOpen || !props.gameStarted ? "translateX(0)" : "translateX(100%)",
+      transform: (props) => (props.menuOpen ? "translateX(0)" : "translateX(100%)"),
     },
   },
   topMenu: {

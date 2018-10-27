@@ -1,7 +1,7 @@
 import React from "react";
 import injectSheet from "react-jss";
 import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
 import PropTypes from "prop-types";
 
@@ -18,18 +18,20 @@ const style = {
       fontSize: "2.5em",
     },
   },
-  menuIcon: {
-    fill: "#FFF",
-  },
   menuButton: {
+    margin: "0",
     display: "none",
     position: "absolute",
     top: "1.75rem",
     right: "2rem",
+    cursor: "pointer",
 
     "@media (max-width: 60em)": {
-      display: "block",
+      display: "inline-flex",
     },
+  },
+  menuIcon: {
+    marginLeft: "0.5rem",
   },
 };
 class Header extends React.Component {
@@ -46,9 +48,15 @@ class Header extends React.Component {
             🧠
           </span>
         </Typography>
-        <IconButton onClick={handleMenuOpens} className={classes.menuButton}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleMenuOpens}
+          className={classes.menuButton}
+        >
+          Menu
           <MenuIcon className={classes.menuIcon} />
-        </IconButton>
+        </Button>
       </header>
     );
   }
