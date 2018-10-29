@@ -3,6 +3,7 @@ import injectSheet from "react-jss";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import MenuIcon from "@material-ui/icons/Menu";
+import CloseIcon from "@material-ui/icons/Close";
 import PropTypes from "prop-types";
 
 const style = {
@@ -36,7 +37,7 @@ const style = {
 };
 class Header extends React.Component {
   render() {
-    const {classes, handleMenuOpens} = this.props;
+    const {classes, handleMenuOpens, menuOpen} = this.props;
     return (
       <header className={classes.myHeader}>
         <Typography variant="h1" gutterBottom={false}>
@@ -55,7 +56,11 @@ class Header extends React.Component {
           className={classes.menuButton}
         >
           Menu
-          <MenuIcon className={classes.menuIcon} />
+          {menuOpen ? (
+            <CloseIcon className={classes.menuIcon} />
+          ) : (
+            <MenuIcon className={classes.menuIcon} />
+          )}
         </Button>
       </header>
     );
@@ -64,6 +69,7 @@ class Header extends React.Component {
 
 Header.propTypes = {
   handleMenuOpens: PropTypes.func.isRequired,
+  menuOpen: PropTypes.bool.isRequired,
 };
 
 export default injectSheet(style)(Header);

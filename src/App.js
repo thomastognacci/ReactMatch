@@ -10,8 +10,9 @@ import Game from "./components/Game";
 
 const style = {
   App: {
-    height: "100vh",
+    position: "relative",
     display: "flex",
+    height: "100vh",
     flexDirection: "column",
   },
   pageCT: {
@@ -60,7 +61,7 @@ class App extends PureComponent {
     return (
       <MuiThemeProvider theme={MainTheme}>
         <div className={classes.App}>
-          <Header handleMenuOpens={this.handleMenuOpens} />
+          <Header menuOpen={menuOpen} handleMenuOpens={this.handleMenuOpens} />
           <div className={classes.pageCT}>
             <Menu
               menuOpen={menuOpen}

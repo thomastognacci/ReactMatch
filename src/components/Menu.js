@@ -22,11 +22,12 @@ const style = {
     flexDirection: "column",
 
     "@media (max-width: 60em)": {
-      position: "fixed",
+      position: "absolute",
+      display: "block",
+      width: "100%",
+      height: "100%",
       background: "#FFF",
       zIndex: "1",
-      width: "100%",
-      // height: "100%",
       border: "none",
       transition: "transform .25s ease-out",
       transform: (props) => (props.menuOpen ? "translateX(0)" : "translateX(100%)"),
