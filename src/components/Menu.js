@@ -21,19 +21,28 @@ const style = {
     flexDirection: "column",
 
     "@media (max-width: 60em)": {
-      position: "absolute",
+      position: "fixed",
       display: "block",
       width: "100%",
       height: "100%",
+      overflow: "auto",
+      top: "0",
+      right: "0",
+      bottom: "0",
+      left: "0",
       background: "#FFF",
       zIndex: "1",
       border: "none",
       transition: "transform .25s ease-out",
-      transform: (props) => (props.menuOpen ? "translateX(0)" : "translateX(100%)"),
+      // Figure out why is this not 60fps
+      transform: (props) => (props.menuOpen ? "translateX(0)" : "translateY(-100%)"),
     },
   },
   topMenu: {
     padding: "1rem",
+    "@media (max-width: 60em)": {
+      marginTop: "80px",
+    },
   },
 };
 class Menu extends React.Component {

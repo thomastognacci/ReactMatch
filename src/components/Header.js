@@ -10,6 +10,7 @@ import {GithubCircle} from "mdi-material-ui";
 
 const style = {
   myHeader: {
+    zIndex: "2",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -46,6 +47,7 @@ const style = {
 class Header extends React.Component {
   render() {
     const {classes, handleMenuOpens, menuOpen} = this.props;
+
     return (
       <header className={classes.myHeader}>
         <IconButton

@@ -1,10 +1,28 @@
 import React from "react";
+import injectSheet from "react-jss";
 import ScoreList from "./ScoreList";
 import base from "../base";
-import Login from "./Login";
+import SignIn from "./SignIn";
 import firebase from "firebase";
 import {firebaseApp} from "../base";
+import Button from "@material-ui/core/Button";
+import {ViewList} from "mdi-material-ui";
 
+import FullScoreListDialog from "./FullScoreListDialog";
+
+const style = {
+  fullList: {
+    marginRight: "1rem",
+  },
+  fullListIcon: {
+    marginLeft: ".5rem",
+  },
+  onlineScoreActions: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
+};
 class OnlineScores extends React.Component {
   state = {
     scores: null,
@@ -13,6 +31,10 @@ class OnlineScores extends React.Component {
       secondBestScore: null,
       thirdBestScore: null,
     },
+    fullScoreListOpen: false,
+    fullScoreList: {},
+    user: null,
+    isSignedIn: false,
   };
 
   updateScores = (scores) => {
@@ -25,11 +47,24 @@ class OnlineScores extends React.Component {
     let thirdBestScore = scoreOrdered[2];
 
     const onlineScores = {bestScore, secondBestScore, thirdBestScore};
-    return this.setState({onlineScores});
+    return this.setState({onlineScores, fullScoreList: scoreOrdered});
+  };
+
+  handleClick = () => {
+    this.setState({fullScoreListOpen: true});
+  };
+  handleClose = () => {
+    this.setState({fullScoreListOpen: false});
   };
 
   authHandler = async (data) => {
-    console.log(data);
+    const user = {uid: data.user.uid, photoURL: data.user.photoURL, name: data.user.displayName};
+    this.setState({isSignedIn: true, user});
+  };
+
+  signOutHandler = async () => {
+    await firebase.auth().signOut();
+    this.setState({isSignedIn: false, user: null});
   };
 
   authenticate = () => {
@@ -41,6 +76,9 @@ class OnlineScores extends React.Component {
   };
 
   componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) this.authHandler({user});
+    });
     base.fetch("scores", {
       context: this,
       then(data) {
@@ -58,14 +96,35 @@ class OnlineScores extends React.Component {
   }
 
   render() {
-    const {onlineScores} = this.state;
+    const {classes} = this.props;
+    const {onlineScores, isSignedIn, fullScoreList, fullScoreListOpen} = this.state;
     return (
       <React.Fragment>
         <ScoreList online {...onlineScores} />
-        <Login authenticate={this.authenticate} />
+        <div className={classes.onlineScoreActions}>
+          <Button
+            className={classes.fullList}
+            size="small"
+            variant="outlined"
+            onClick={this.handleClick}
+          >
+            View Full List
+            <ViewList className={classes.fullListIcon} />
+          </Button>
+          <FullScoreListDialog
+            handleClose={this.handleClose}
+            open={fullScoreListOpen}
+            fullScoreList={fullScoreList}
+          />
+          <SignIn
+            signOutHandler={this.signOutHandler}
+            isSignedIn={isSignedIn}
+            authenticate={this.authenticate}
+          />
+        </div>
       </React.Fragment>
     );
   }
 }
 
-export default OnlineScores;
+export default injectSheet(style)(OnlineScores);

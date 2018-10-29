@@ -3,22 +3,10 @@ import ScoreList from "./ScoreList";
 import moment from "moment";
 import PropTypes from "prop-types";
 
-const stateFromLS = JSON.parse(localStorage.getItem("memoji_scores"));
-
 class LocalScores extends React.Component {
-  state = stateFromLS || {
-    lastGameScore: null,
-    localScores: {
-      bestScore: null,
-      secondBestScore: null,
-      thirdBestScore: null,
-    },
-  };
-
   updateLocalScores = () => {
-    let {lastGameScore} = this.state;
-    let {bestScore, secondBestScore, thirdBestScore} = this.state.localScores;
-    const saveToLS = (state) => localStorage.setItem("memoji_scores", JSON.stringify(state));
+    let {lastGameScore} = this.props;
+    let {bestScore, secondBestScore, thirdBestScore} = this.props.localScores;
     const now = moment();
 
     if (!lastGameScore) {
@@ -35,25 +23,24 @@ class LocalScores extends React.Component {
       thirdBestScore = {score: lastGameScore, secondary: now};
     }
     const localScores = {bestScore, secondBestScore, thirdBestScore};
-    return this.setState({localScores}, () => saveToLS(this.state));
+    return this.props.handleLocalScores(localScores);
   };
 
   componentDidUpdate(prevProps) {
     if (prevProps.lastGameScore !== this.props.lastGameScore) {
-      this.setState({lastGameScore: this.props.lastGameScore}, () =>
-        this.updateLocalScores(this.props.lastGameScore),
-      );
+      this.updateLocalScores();
     }
   }
 
   render() {
-    const {localScores} = this.state;
+    const {localScores} = this.props;
     return <ScoreList {...localScores} />;
   }
 }
 
 LocalScores.propTypes = {
   lastGameScore: PropTypes.number.isRequired,
+  localScores: PropTypes.object.isRequired,
 };
 
 export default LocalScores;

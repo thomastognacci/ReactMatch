@@ -66,7 +66,7 @@ class ScoreList extends React.Component {
                     <ListItemText
                       inset
                       primary={formatScore(score.score)}
-                      secondary={isOnline ? score.name : dateFromNow}
+                      secondary={isOnline ? `#${index + 1} | ${score.name}` : dateFromNow}
                     />
                   </ListItem>
                 </List>
