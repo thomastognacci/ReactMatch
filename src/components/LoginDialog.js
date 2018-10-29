@@ -10,9 +10,9 @@ import PropTypes from "prop-types";
 
 class LoginDialog extends React.Component {
   render() {
-    const {open, authenticate} = this.props;
+    const {open, authenticate, handleClose} = this.props;
     return (
-      <Dialog open={open}>
+      <Dialog onClose={handleClose} open={open}>
         <DialogTitle id="simple-dialog-title">Log in</DialogTitle>
         <List>
           <ListItem button onClick={authenticate}>

@@ -11,6 +11,9 @@ class Login extends React.Component {
   handleClick = () => {
     this.setState({open: true});
   };
+  handleClose = (value) => {
+    this.setState({open: false});
+  };
   render() {
     const {open} = this.state;
     const {authenticate} = this.props;
@@ -19,7 +22,7 @@ class Login extends React.Component {
         <Button onClick={this.handleClick} fullWidth size="small">
           Sign in to submit your best score
         </Button>
-        <LoginDialog open={open} authenticate={authenticate} />
+        <LoginDialog handleClose={this.handleClose} open={open} authenticate={authenticate} />
       </React.Fragment>
     );
   }
