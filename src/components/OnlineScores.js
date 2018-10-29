@@ -2,6 +2,9 @@ import React from "react";
 import ScoreList from "./ScoreList";
 import base from "../base";
 import Login from "./Login";
+import firebase from "firebase";
+import {firebaseApp} from "../base";
+
 class OnlineScores extends React.Component {
   state = {
     scores: null,
@@ -23,6 +26,18 @@ class OnlineScores extends React.Component {
 
     const onlineScores = {bestScore, secondBestScore, thirdBestScore};
     return this.setState({onlineScores});
+  };
+
+  authHandler = async (data) => {
+    console.log(data);
+  };
+
+  authenticate = () => {
+    const authProvider = new firebase.auth.FacebookAuthProvider();
+    firebaseApp
+      .auth()
+      .signInWithPopup(authProvider)
+      .then(this.authHandler);
   };
 
   componentDidMount() {
@@ -47,7 +62,7 @@ class OnlineScores extends React.Component {
     return (
       <React.Fragment>
         <ScoreList online {...onlineScores} />
-        <Login />
+        <Login authenticate={this.authenticate} />
       </React.Fragment>
     );
   }

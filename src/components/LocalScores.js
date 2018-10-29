@@ -1,6 +1,7 @@
 import React from "react";
 import ScoreList from "./ScoreList";
 import moment from "moment";
+import PropTypes from "prop-types";
 
 const stateFromLS = JSON.parse(localStorage.getItem("memoji_scores"));
 
@@ -50,5 +51,9 @@ class LocalScores extends React.Component {
     return <ScoreList {...localScores} />;
   }
 }
+
+LocalScores.propTypes = {
+  lastGameScore: PropTypes.number.isRequired,
+};
 
 export default LocalScores;

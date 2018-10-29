@@ -27,7 +27,6 @@ class Scoreboard extends React.Component {
 
   render() {
     const {classes, lastGameScore} = this.props;
-    // const {lastGameScore} = this.state;
     return (
       <React.Fragment>
         <Typography className={classes.scoreboard} variant="overline" align="center">
