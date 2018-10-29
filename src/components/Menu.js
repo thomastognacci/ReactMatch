@@ -9,7 +9,6 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Scoreboard from "./Scoreboard";
-import MenuLinks from "./MenuLinks";
 import SelectDifficulty from "./SelectDifficulty";
 
 const style = {
@@ -80,7 +79,6 @@ class Menu extends React.Component {
           )}
         </div>
         <Scoreboard lastGameScore={lastGameScore} />
-        <MenuLinks />
       </div>
     );
   }

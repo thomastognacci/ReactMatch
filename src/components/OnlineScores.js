@@ -1,7 +1,7 @@
 import React from "react";
 import ScoreList from "./ScoreList";
 import base from "../base";
-
+import Login from "./Login";
 class OnlineScores extends React.Component {
   state = {
     scores: null,
@@ -44,7 +44,12 @@ class OnlineScores extends React.Component {
 
   render() {
     const {onlineScores} = this.state;
-    return <ScoreList online {...onlineScores} />;
+    return (
+      <React.Fragment>
+        <ScoreList online {...onlineScores} />
+        <Login />
+      </React.Fragment>
+    );
   }
 }
 
