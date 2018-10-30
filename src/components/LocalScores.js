@@ -39,7 +39,6 @@ class LocalScores extends React.Component {
 }
 
 LocalScores.propTypes = {
-  lastGameScore: PropTypes.number.isRequired,
   localScores: PropTypes.object.isRequired,
 };
 

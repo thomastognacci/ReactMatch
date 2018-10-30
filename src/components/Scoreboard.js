@@ -19,10 +19,9 @@ const style = {
 const stateFromLS = JSON.parse(localStorage.getItem("memoji_scores"));
 
 class Scoreboard extends React.Component {
-  state = stateFromLS || {
+  state = {
     value: 0,
-    lastGameScore: null,
-    localScores: {
+    localScores: stateFromLS || {
       bestScore: null,
       secondBestScore: null,
       thirdBestScore: null,
@@ -34,7 +33,7 @@ class Scoreboard extends React.Component {
   };
   handleLocalScores = (localScores) => {
     const saveToLS = (state) => localStorage.setItem("memoji_scores", JSON.stringify(state));
-    this.setState({localScores}, () => saveToLS(this.state));
+    this.setState({localScores}, () => saveToLS(this.state.localScores));
   };
 
   render() {
@@ -58,9 +57,9 @@ class Scoreboard extends React.Component {
         </Tabs>
         <SwipeableViews axis={"x"} index={this.state.value} onChangeIndex={this.handleChangeIndex}>
           <LocalScores
+            lastGameScore={lastGameScore}
             localScores={localScores}
             handleLocalScores={this.handleLocalScores}
-            lastGameScore={lastGameScore}
           />
           <OnlineScores localScores={localScores} />
         </SwipeableViews>
