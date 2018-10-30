@@ -14,6 +14,7 @@ import SelectDifficulty from "./SelectDifficulty";
 const style = {
   mainMenu: {
     flexShrink: "0",
+    flexBasis: "20em",
     color: "#673ab7",
     borderRight: "3px solid",
     borderRightColor: "#673ab7",

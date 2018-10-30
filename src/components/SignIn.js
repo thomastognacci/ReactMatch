@@ -46,7 +46,7 @@ class SignIn extends React.Component {
           </Button>
         ) : (
           <Button variant="outlined" onClick={() => this.handleClick("signIn")} size="small">
-            Sign in to submit your best score
+            Sign in
             <Login className={classes.signInOutIcons} />
           </Button>
         )}

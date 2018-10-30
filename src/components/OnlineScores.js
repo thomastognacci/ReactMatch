@@ -21,6 +21,7 @@ const style = {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    marginBottom: "1rem",
   },
 };
 class OnlineScores extends React.Component {
