@@ -23,6 +23,9 @@ class GameInterface extends React.PureComponent {
     completed: 0,
   };
   componentDidUpdate(prevProps) {
+    if (prevProps.shouldRestart !== this.props.shouldRestart) {
+      this.setState({completed: 0});
+    }
     if (prevProps.pairRevealedCount !== this.props.pairRevealedCount) {
       const completed = 100 * (this.props.pairRevealedCount / this.props.cardListCount);
       this.setState({completed});
