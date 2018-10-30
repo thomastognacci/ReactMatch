@@ -19,6 +19,9 @@ class Timer extends React.PureComponent {
     if (command === "restart") {
       clearInterval(this.timer);
     }
+    if (command === "stop") {
+      return clearInterval(this.timer);
+    }
     const startTime = Date.now();
     this.timer = setInterval(() => {
       this.setState({time: Date.now() - startTime});
@@ -32,18 +35,14 @@ class Timer extends React.PureComponent {
     return `${min > 9 ? "" : "0"}${min} : ${sec > 9 ? "" : "0"}${sec} : ${ms}0`;
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.gameEnded) {
-      clearInterval(this.timer);
-      return false;
-    }
-    this.props.handleGameDuration(this.state.time);
-    return true;
-  }
-
   componentDidUpdate(prevProps) {
+    this.props.handleGameDuration(this.state.time);
+
     if (!prevProps.gameStarted && this.props.gameStarted) {
       this.handleTimer();
+    }
+    if (this.props.gameEnded) {
+      this.handleTimer("stop");
     }
     if (prevProps.shouldRestart) {
       this.handleTimer("restart");
@@ -69,6 +68,9 @@ class Timer extends React.PureComponent {
 
 Timer.propTypes = {
   handleGameDuration: PropTypes.func.isRequired,
+  gameStarted: PropTypes.bool.isRequired,
+  gameEnded: PropTypes.bool.isRequired,
+  shouldRestart: PropTypes.bool.isRequired,
 };
 
 export default injectSheet(style)(Timer);

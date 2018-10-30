@@ -27,7 +27,7 @@ class SignInDialog extends React.PureComponent {
               <DialogContentText>
                 Sign-in to have your best score uploaded and see how you do compare to the rest of
                 the world!
-                <span style={{"font-size": ".5em"}}> and cheaters</span>
+                <span style={{fonSize: ".5em"}}> and cheaters</span>
               </DialogContentText>
             </DialogContent>
             <List>
