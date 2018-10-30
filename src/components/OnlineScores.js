@@ -1,9 +1,11 @@
 import React from "react";
 import injectSheet from "react-jss";
+import firebase from "firebase/app";
+import "firebase/auth";
+
 import ScoreList from "./ScoreList";
 import base from "../base";
 import SignIn from "./SignIn";
-import firebase from "firebase";
 import {firebaseApp} from "../base";
 import Button from "@material-ui/core/Button";
 import {ViewList} from "mdi-material-ui";
@@ -103,10 +105,11 @@ class OnlineScores extends React.PureComponent {
       <React.Fragment>
         <ScoreList online {...onlineScores} />
         <div className={classes.onlineScoreActions}>
+          {/* // TODO Move to its own component */}
           <Button
+            color="primary"
             className={classes.fullList}
             size="small"
-            variant="outlined"
             onClick={this.handleClick}
           >
             View Full List
@@ -117,6 +120,8 @@ class OnlineScores extends React.PureComponent {
             open={fullScoreListOpen}
             fullScoreList={fullScoreList}
           />
+          {/* // TODO /end Move to its own component */}
+
           <SignIn
             signOutHandler={this.signOutHandler}
             isSignedIn={isSignedIn}

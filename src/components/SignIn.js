@@ -40,12 +40,17 @@ class SignIn extends React.PureComponent {
     return (
       <React.Fragment>
         {isSignedIn ? (
-          <Button variant="outlined" onClick={this.handleClick} size="small">
+          <Button variant="outlined" color="primary" onClick={this.handleClick} size="small">
             Sign out
             <Logout className={classes.signInOutIcons} />
           </Button>
         ) : (
-          <Button variant="outlined" onClick={() => this.handleClick("signIn")} size="small">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => this.handleClick("signIn")}
+            size="small"
+          >
             Sign in
             <Login className={classes.signInOutIcons} />
           </Button>
