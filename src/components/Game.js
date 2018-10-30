@@ -146,6 +146,7 @@ class Game extends PureComponent {
           gameDuration={gameDuration}
           totalClickCount={totalClickCount}
           pairRevealedCount={pairRevealedCount}
+          cardListCount={cardList.length}
           difficulty={difficulty}
           handleScoreUpdate={handleScoreUpdate}
         />
