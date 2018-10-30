@@ -11,7 +11,7 @@ const style = {
   },
 };
 
-class Timer extends React.Component {
+class Timer extends React.PureComponent {
   state = {
     time: 0,
   };

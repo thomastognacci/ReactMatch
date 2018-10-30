@@ -46,7 +46,7 @@ const style = {
     },
   },
 };
-class Menu extends React.Component {
+class Menu extends React.PureComponent {
   render() {
     const {
       classes,

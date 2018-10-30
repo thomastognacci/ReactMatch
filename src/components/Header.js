@@ -44,7 +44,7 @@ const style = {
     flex: "0 0 auto",
   },
 };
-class Header extends React.Component {
+class Header extends React.PureComponent {
   render() {
     const {classes, handleMenuOpens, menuOpen} = this.props;
 

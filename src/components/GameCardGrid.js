@@ -26,7 +26,7 @@ const style = {
   },
 };
 
-class GameCardGrid extends React.Component {
+class GameCardGrid extends React.PureComponent {
   render() {
     const {
       classes,

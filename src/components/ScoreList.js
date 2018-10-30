@@ -27,7 +27,7 @@ const style = {
   },
 };
 
-class ScoreList extends React.Component {
+class ScoreList extends React.PureComponent {
   renderScoreboard = () => {
     const {classes} = this.props;
     const {bestScore, secondBestScore, thirdBestScore} = this.props;

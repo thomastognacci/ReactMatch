@@ -14,7 +14,7 @@ import Button from "@material-ui/core/Button";
 
 import {formatScore} from "../helpers/formatScore";
 
-class FullScoreListDialog extends React.Component {
+class FullScoreListDialog extends React.PureComponent {
   renderScoreboard = () => {
     const scores = this.props.fullScoreList;
 

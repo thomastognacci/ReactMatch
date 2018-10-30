@@ -3,7 +3,7 @@ import {emojiFullList} from "../list-of-cards";
 import PropTypes from "prop-types";
 
 import GameCard from "./GameCard";
-class CardGenerator extends React.Component {
+class CardGenerator extends React.PureComponent {
   state = {
     displayCards: false,
   };

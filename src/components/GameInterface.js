@@ -18,7 +18,7 @@ const style = {
     background: "linear-gradient(to top left, #6e7bca, #673ab7)",
   },
 };
-class GameInterface extends React.Component {
+class GameInterface extends React.PureComponent {
   state = {
     completed: 0,
   };

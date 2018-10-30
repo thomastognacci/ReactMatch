@@ -42,7 +42,7 @@ const style = {
   },
 };
 
-class GameCard extends React.Component {
+class GameCard extends React.PureComponent {
   handleClick = () => {
     const {isActive, revealed} = this.props;
     if (isActive || revealed) return;

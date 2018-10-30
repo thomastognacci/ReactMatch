@@ -18,7 +18,7 @@ const style = {
 
 const stateFromLS = JSON.parse(localStorage.getItem("memoji_scores"));
 
-class Scoreboard extends React.Component {
+class Scoreboard extends React.PureComponent {
   state = {
     value: 0,
     localScores: stateFromLS || {

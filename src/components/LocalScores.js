@@ -3,7 +3,7 @@ import ScoreList from "./ScoreList";
 import moment from "moment";
 import PropTypes from "prop-types";
 
-class LocalScores extends React.Component {
+class LocalScores extends React.PureComponent {
   updateLocalScores = () => {
     let {lastGameScore} = this.props;
     let {bestScore, secondBestScore, thirdBestScore} = this.props.localScores;

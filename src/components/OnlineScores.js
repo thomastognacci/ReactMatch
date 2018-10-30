@@ -24,7 +24,7 @@ const style = {
     marginBottom: "1rem",
   },
 };
-class OnlineScores extends React.Component {
+class OnlineScores extends React.PureComponent {
   state = {
     scores: null,
     onlineScores: {

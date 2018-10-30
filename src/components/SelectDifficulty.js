@@ -14,7 +14,7 @@ const style = {
     display: "block",
   },
 };
-class SelectDifficulty extends React.Component {
+class SelectDifficulty extends React.PureComponent {
   render() {
     const {classes, handleDifficultyChange} = this.props;
     return (

@@ -12,7 +12,7 @@ const style = {
     pointerEvents: "none",
   },
 };
-class GameEnd extends React.Component {
+class GameEnd extends React.PureComponent {
   render() {
     const size = {
       width: window.innerWidth,

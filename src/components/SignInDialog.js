@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
-class SignInDialog extends React.Component {
+class SignInDialog extends React.PureComponent {
   handleNotImplemented() {
     alert("Not implemented yet :(");
   }

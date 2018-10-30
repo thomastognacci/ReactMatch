@@ -11,7 +11,7 @@ const style = {
   },
 };
 
-class SignIn extends React.Component {
+class SignIn extends React.PureComponent {
   state = {
     signInOpen: false,
     signOutOpen: false,
