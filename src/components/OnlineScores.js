@@ -175,7 +175,7 @@ class OnlineScores extends React.PureComponent {
 						<ViewList className={classes.fullListIcon} />
 					</Button>
 					<FullPlayerListDialog
-						user={user}
+						userID={user}
 						handleClose={this.handleClose}
 						open={fullPlayerListOpen}
 						fullPlayerList={fullPlayerList}

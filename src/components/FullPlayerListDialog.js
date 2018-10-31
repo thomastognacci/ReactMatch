@@ -24,8 +24,11 @@ const style = {
 class FullPlayerListDialog extends React.PureComponent {
 	renderScoreboard = () => {
 		const players = this.props.fullPlayerList;
-		const { user, classes } = this.props;
-
+		const {user, classes } = this.props;
+		let userID = null;
+		if (user) {
+			userID = user.uid;
+		}
 		if (!Array.isArray(players)) return null;
 
 		return players
@@ -35,9 +38,9 @@ class FullPlayerListDialog extends React.PureComponent {
 			.map((player, index) => {
 				return (
 					<List key={player.key}>
-						<ListItem className={player.uid === user.uid ? classes.user : null} dense>
+						<ListItem className={player.uid === userID ? classes.user : null} dense>
 							<Avatar alt={player.name} src={player.photoURL} />
-							<ListItemText inset primary={formatScore(player.score)} secondary={ `#${index + 1} | ${player.uid === user.uid ? `You! (${player.name})` : player.name}`} />
+							<ListItemText inset primary={formatScore(player.score)} secondary={ `#${index + 1} | ${player.uid === userID ? `You! (${player.name})` : player.name}`} />
 						</ListItem>
 					</List>
 				);
@@ -66,4 +69,4 @@ FullPlayerListDialog.propTypes = {
 	handleClose: PropTypes.func.isRequired,
 	fullPlayerList: PropTypes.array.isRequired,
 };
-export default injectSheet(style)(FullPlayerListDialog)
+export default injectSheet(style)(FullPlayerListDialog);
