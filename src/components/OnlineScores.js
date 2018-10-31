@@ -72,6 +72,10 @@ class OnlineScores extends React.PureComponent {
 			photoURL: data.user.photoURL,
 			name: data.user.displayName,
 		};
+
+		// if there is a best score already, push it online
+		this.pushBestScore();
+
 		this.setState({ isSignedIn: true, user });
 	};
 
@@ -100,6 +104,8 @@ class OnlineScores extends React.PureComponent {
 
 	pushBestScore = () => {
 		const { bestScore } = this.props.localScores;
+		if (!bestScore) return;
+
 		const { user } = this.state;
 
 		if (!this.state.isSignedIn || !user.uid) return;
@@ -115,16 +121,19 @@ class OnlineScores extends React.PureComponent {
 		// Check if user already has a score in the DB, and if the new best score is higher than the previous one
 		if (Array.isArray(this.state.fullPlayerList)) {
 			if (this.state.fullPlayerList.length !== 0) {
-				let key = this.state.fullPlayerList.map(dbEntry => {
+				let key;
+				this.state.fullPlayerList.map(dbEntry => {
 					if (dbEntry.uid === user.uid) {
+						console.log("exist!", dbEntry.key);
+
 						if (dbEntry.score > user.score) return null;
-						else return dbEntry.key;
+						else return (key = dbEntry.key);
 					}
 
 					return null;
 				});
 				// if that's the case, update entry
-				if (key) {
+				if (typeof key === "string") {
 					return base.update(`scores/${key}`, {
 						data: entry,
 						then(err) {

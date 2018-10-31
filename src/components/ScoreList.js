@@ -14,17 +14,17 @@ import { formatScore } from "../helpers/formatScore";
 const style = {
 	noScore: {
 		padding: "1em",
-		textAlign: "center"
+		textAlign: "center",
 	},
 	listItemText: {
-		flex: "0"
+		flex: "0",
 	},
 	ScoresGroup: {
-		overflow: "hidden"
+		overflow: "hidden",
 	},
 	progress: {
-		margin: "2rem"
-	}
+		margin: "2rem",
+	},
 };
 
 class ScoreList extends React.PureComponent {
@@ -58,17 +58,12 @@ class ScoreList extends React.PureComponent {
 										{isOnline ? (
 											<Avatar alt={score.name} src={score.photoURL} />
 										) : (
-											<ListItemText
-												primary={index + 1}
-												className={classes.listItemText}
-											/>
+											<ListItemText primary={index + 1} className={classes.listItemText} />
 										)}
 										<ListItemText
 											inset
 											primary={formatScore(score.score)}
-											secondary={
-												isOnline ? `#${index + 1} | ${score.name}` : dateFromNow
-											}
+											secondary={isOnline ? `#${index + 1} | ${score.name}` : dateFromNow}
 										/>
 									</ListItem>
 								</List>
@@ -99,10 +94,11 @@ class ScoreList extends React.PureComponent {
 }
 
 ScoreList.propTypes = {
+	online: PropTypes.bool,
 	bestScore: PropTypes.object,
 	secondBestScore: PropTypes.object,
 	thirdBestScore: PropTypes.object,
-	fetchError: PropTypes.bool
+	fetchError: PropTypes.bool,
 };
 
 export default injectSheet(style)(ScoreList);
