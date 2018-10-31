@@ -19,16 +19,13 @@ const style = {
 	user: {
 		background: "#ffc10733",
 	},
-}
+};
 
 class FullPlayerListDialog extends React.PureComponent {
 	renderScoreboard = () => {
 		const players = this.props.fullPlayerList;
-		const {user, classes } = this.props;
-		let userID = null;
-		if (user) {
-			userID = user.uid;
-		}
+		const { user, classes } = this.props;
+
 		if (!Array.isArray(players)) return null;
 
 		return players
@@ -36,11 +33,21 @@ class FullPlayerListDialog extends React.PureComponent {
 				return Boolean(player);
 			})
 			.map((player, index) => {
+				let secondaryText = `#${index + 1} | `;
+
+				if (user) {
+					if (player.uid === user.uid) secondaryText += `You! (${player.name})`;
+					else {
+						secondaryText += player.name;
+					}
+				} else {
+					secondaryText += player.name;
+				}
 				return (
 					<List key={player.key}>
-						<ListItem className={player.uid === userID ? classes.user : null} dense>
+						<ListItem className={user && player.uid === user.uid ? classes.user : null} dense>
 							<Avatar alt={player.name} src={player.photoURL} />
-							<ListItemText inset primary={formatScore(player.score)} secondary={ `#${index + 1} | ${player.uid === userID ? `You! (${player.name})` : player.name}`} />
+							<ListItemText inset primary={formatScore(player.score)} secondary={secondaryText} />
 						</ListItem>
 					</List>
 				);
