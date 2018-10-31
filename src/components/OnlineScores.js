@@ -8,18 +8,10 @@ import ScoreList from "./ScoreList";
 import base from "../base";
 import SignIn from "./SignIn";
 import {firebaseApp} from "../base";
-import Button from "@material-ui/core/Button";
-import {ViewList} from "mdi-material-ui";
 
-import FullPlayerListDialog from "./FullPlayerListDialog";
+import FullPlayerList from "./FullPlayerList";
 
 const style = {
-  fullList: {
-    marginRight: "1rem",
-  },
-  fullListIcon: {
-    marginLeft: ".5rem",
-  },
   onlineScoreActions: {
     display: "flex",
     flexWrap: "wrap",
@@ -35,7 +27,6 @@ class OnlineScores extends React.PureComponent {
       secondBestScore: null,
       thirdBestScore: null,
     },
-    fullPlayerListOpen: false,
     fullPlayerList: [],
     fetchError: false,
     user: null,
@@ -57,14 +48,6 @@ class OnlineScores extends React.PureComponent {
 
     const onlineScores = {bestScore, secondBestScore, thirdBestScore};
     return this.setState({onlineScores, fullPlayerList: scoreOrdered});
-  };
-
-  handleClick = () => {
-    this.setState({fullPlayerListOpen: true});
-  };
-
-  handleClose = () => {
-    this.setState({fullPlayerListOpen: false});
   };
 
   authHandler = async (data) => {
@@ -176,7 +159,7 @@ class OnlineScores extends React.PureComponent {
       onlineScores,
       isSignedIn,
       fullPlayerList,
-      fullPlayerListOpen,
+
       fetchError,
       user,
     } = this.state;
@@ -184,25 +167,7 @@ class OnlineScores extends React.PureComponent {
       <React.Fragment>
         <ScoreList fetchError={fetchError} online {...onlineScores} />
         <div className={classes.onlineScoreActions}>
-          {/* // TODO Move to its own component */}
-          <Button
-            color="primary"
-            className={classes.fullList}
-            size="small"
-            onClick={this.handleClick}
-            disabled={fetchError}
-          >
-            View Full List
-            <ViewList className={classes.fullListIcon} />
-          </Button>
-          <FullPlayerListDialog
-            user={user}
-            handleClose={this.handleClose}
-            open={fullPlayerListOpen}
-            fullPlayerList={fullPlayerList}
-          />
-          {/* // TODO /end Move to its own component */}
-
+          <FullPlayerList user={user} fullPlayerList={fullPlayerList} fetchError={fetchError} />
           <SignIn
             signOutHandler={this.signOutHandler}
             isSignedIn={isSignedIn}
