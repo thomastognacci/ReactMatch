@@ -61,7 +61,7 @@ class Scoreboard extends React.PureComponent {
 						localScores={localScores}
 						handleLocalScores={this.handleLocalScores}
 					/>
-					<OnlineScores localScores={localScores} />
+					<OnlineScores handleLocalScores={this.handleLocalScores} localScores={localScores} />
 				</SwipeableViews>
 			</React.Fragment>
 		);

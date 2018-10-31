@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -41,7 +42,7 @@ class OnlineScores extends React.PureComponent {
 		isSignedIn: false,
 	};
 
-	updateScores = scores => {
+	updateOnlineScores = scores => {
 		// If no score or error connecting to the DB
 		if (!Array.isArray(scores)) return this.setState({ fetchError: true });
 
@@ -97,7 +98,7 @@ class OnlineScores extends React.PureComponent {
 			context: this,
 			asArray: true,
 			then(data) {
-				this.updateScores(data);
+				this.updateOnlineScores(data);
 			},
 		});
 	}
@@ -118,23 +119,23 @@ class OnlineScores extends React.PureComponent {
 			name: user.name,
 		};
 
-		// Check if user already has a score in the DB, and if the new best score is higher than the previous one
 		if (Array.isArray(this.state.fullPlayerList)) {
+			// Check if user already has a score in the DB, and if the new best score is higher than the previous one
 			if (this.state.fullPlayerList.length !== 0) {
-				let key;
-				this.state.fullPlayerList.map(dbEntry => {
-					if (dbEntry.uid === user.uid) {
-						console.log("exist!", dbEntry.key);
-
-						if (dbEntry.score > user.score) return null;
-						else return (key = dbEntry.key);
-					}
-
-					return null;
+				// skip the entry is user already in DB but the score is lower than the previous one
+				let entryToSkip = this.state.fullPlayerList.filter(dbEntry => {
+					return dbEntry.uid === user.uid && dbEntry.score > entry.score;
 				});
-				// if that's the case, update entry
-				if (typeof key === "string") {
-					return base.update(`scores/${key}`, {
+
+				if (entryToSkip[0]) return;
+
+				// if the new score is higher, update entry
+				let entryToUpdate = this.state.fullPlayerList.filter(dbEntry => {
+					return dbEntry.uid === user.uid && dbEntry.score < entry.score;
+				});
+
+				if (entryToUpdate[0]) {
+					return base.update(`scores/${entryToUpdate[0].key}`, {
 						data: entry,
 						then(err) {
 							if (err) return console.error("Error: ", err);
@@ -142,6 +143,7 @@ class OnlineScores extends React.PureComponent {
 					});
 				}
 			}
+			// otherwise, create new entry
 			return base.push("scores", {
 				data: entry,
 				then(err) {
@@ -197,5 +199,14 @@ class OnlineScores extends React.PureComponent {
 		);
 	}
 }
+
+OnlineScores.propTypes = {
+	handleLocalScores: PropTypes.func.isRequired,
+	localScores: PropTypes.shape({
+		bestScore: PropTypes.object,
+		secondBestScore: PropTypes.object,
+		thirdBestScore: PropTypes.object,
+	}),
+};
 
 export default injectSheet(style)(OnlineScores);
