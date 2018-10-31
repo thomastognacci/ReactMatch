@@ -10,7 +10,7 @@ import { firebaseApp } from "../base";
 import Button from "@material-ui/core/Button";
 import { ViewList } from "mdi-material-ui";
 
-import FullScoreListDialog from "./FullScoreListDialog";
+import FullPlayerListDialog from "./FullPlayerListDialog";
 
 const style = {
 	fullList: {
@@ -158,7 +158,7 @@ class OnlineScores extends React.PureComponent {
 
 	render() {
 		const { classes } = this.props;
-		const { onlineScores, isSignedIn, fullPlayerList, fullPlayerListOpen, fetchError } = this.state;
+		const { onlineScores, isSignedIn, fullPlayerList, fullPlayerListOpen, fetchError, user } = this.state;
 		return (
 			<React.Fragment>
 				<ScoreList fetchError={fetchError} online {...onlineScores} />
@@ -174,7 +174,8 @@ class OnlineScores extends React.PureComponent {
 						View Full List
 						<ViewList className={classes.fullListIcon} />
 					</Button>
-					<FullScoreListDialog
+					<FullPlayerListDialog
+						user={user}
 						handleClose={this.handleClose}
 						open={fullPlayerListOpen}
 						fullPlayerList={fullPlayerList}

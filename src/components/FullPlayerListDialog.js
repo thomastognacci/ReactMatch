@@ -1,4 +1,5 @@
 import React from "react";
+import injectSheet from "react-jss";
 import PropTypes from "prop-types";
 
 import Dialog from "@material-ui/core/Dialog";
@@ -14,9 +15,16 @@ import Button from "@material-ui/core/Button";
 
 import { formatScore } from "../helpers/formatScore";
 
-class FullScoreListDialog extends React.PureComponent {
+const style = {
+	user: {
+		background: "#ffc10733",
+	},
+}
+
+class FullPlayerListDialog extends React.PureComponent {
 	renderScoreboard = () => {
 		const players = this.props.fullPlayerList;
+		const { user, classes } = this.props;
 
 		if (!Array.isArray(players)) return null;
 
@@ -25,19 +33,11 @@ class FullScoreListDialog extends React.PureComponent {
 				return Boolean(player);
 			})
 			.map((player, index) => {
-				// if (!isOnline) {
-				//   var date = moment(score.secondary);
-				//   var dateFromNow = date.fromNow();
-				// }
 				return (
 					<List key={player.key}>
-						<ListItem dense>
+						<ListItem className={player.uid === user.uid ? classes.user : null} dense>
 							<Avatar alt={player.name} src={player.photoURL} />
-							<ListItemText
-								inset
-								primary={formatScore(player.score)}
-								secondary={`#${index + 1} | ${player.name}`}
-							/>
+							<ListItemText inset primary={formatScore(player.score)} secondary={ `#${index + 1} | ${player.uid === user.uid ? `You! (${player.name})` : player.name}`} />
 						</ListItem>
 					</List>
 				);
@@ -49,9 +49,7 @@ class FullScoreListDialog extends React.PureComponent {
 			<Dialog onClose={handleClose} open={open}>
 				<DialogTitle id="simple-dialog-title">Scoreboard</DialogTitle>
 				<DialogContent>
-					<DialogContentText>
-						Here is the list of all the heroes that have defeated the game.
-					</DialogContentText>
+					<DialogContentText>Here is the list of all the heroes that have defeated the game.</DialogContentText>
 
 					{this.renderScoreboard()}
 					<DialogActions>
@@ -63,9 +61,9 @@ class FullScoreListDialog extends React.PureComponent {
 	}
 }
 
-FullScoreListDialog.propTypes = {
+FullPlayerListDialog.propTypes = {
 	open: PropTypes.bool.isRequired,
 	handleClose: PropTypes.func.isRequired,
-	fullPlayerList: PropTypes.array.isRequired
+	fullPlayerList: PropTypes.array.isRequired,
 };
-export default FullScoreListDialog;
+export default injectSheet(style)(FullPlayerListDialog)
