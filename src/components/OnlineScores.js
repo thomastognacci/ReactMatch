@@ -105,13 +105,14 @@ class OnlineScores extends React.PureComponent {
 
 	pushBestScore = () => {
 		const { bestScore } = this.props.localScores;
+		const { fullPlayerList } = this.state;
 		if (!bestScore) return;
 
 		const { user } = this.state;
 
 		if (!this.state.isSignedIn || !user.uid) return;
 
-		const entry = {
+		const newEntry = {
 			score: bestScore.score,
 			date: bestScore.secondary.toString(),
 			uid: user.uid,
@@ -119,33 +120,30 @@ class OnlineScores extends React.PureComponent {
 			name: user.name,
 		};
 
-		if (Array.isArray(this.state.fullPlayerList)) {
+		if (Array.isArray(fullPlayerList)) {
 			// Check if user already has a score in the DB, and if the new best score is higher than the previous one
-			if (this.state.fullPlayerList.length !== 0) {
-				// skip the entry is user already in DB but the score is lower than the previous one
-				let entryToSkip = this.state.fullPlayerList.filter(dbEntry => {
-					return dbEntry.uid === user.uid && dbEntry.score > entry.score;
+			if (fullPlayerList.length !== 0) {
+				var dbEntry = fullPlayerList.find(function(player) {
+					return player.uid === user.uid;
 				});
 
-				if (entryToSkip[0]) return;
-
-				// if the new score is higher, update entry
-				let entryToUpdate = this.state.fullPlayerList.filter(dbEntry => {
-					return dbEntry.uid === user.uid && dbEntry.score < entry.score;
-				});
-
-				if (entryToUpdate[0]) {
-					return base.update(`scores/${entryToUpdate[0].key}`, {
-						data: entry,
-						then(err) {
-							if (err) return console.error("Error: ", err);
-						},
-					});
+				if (dbEntry) {
+					// skip the entry is user already in DB but the score is lower than the previous one
+					if (dbEntry.score > newEntry.score) {
+						return;
+					} else {
+						return base.update(`scores/${dbEntry.key}`, {
+							data: newEntry,
+							then(err) {
+								if (err) return console.error("Error: ", err);
+							},
+						});
+					}
 				}
 			}
 			// otherwise, create new entry
 			return base.push("scores", {
-				data: entry,
+				data: newEntry,
 				then(err) {
 					if (err) return console.error("Error: ", err);
 				},
