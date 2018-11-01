@@ -58,7 +58,8 @@ class OnlineScores extends React.PureComponent {
     };
 
     // if there is a best score already, push it online
-    this.pushBestScore();
+    // ! there is something wrong here
+    // this.pushBestScore();
 
     this.setState({isSignedIn: true, user});
   };
@@ -68,12 +69,14 @@ class OnlineScores extends React.PureComponent {
     this.setState({isSignedIn: false, user: null});
   };
 
-  authenticate = () => {
-    const authProvider = new firebase.auth.FacebookAuthProvider();
+  authenticate = (provider) => {
+    const authProvider = new firebase.auth[`${provider}AuthProvider`]();
+
     firebaseApp
       .auth()
       .signInWithPopup(authProvider)
-      .then(this.authHandler);
+      .then(this.authHandler)
+      .catch((error) => this.props.handleIsSignedIn(false, error));
   };
 
   fetchDBEntries() {

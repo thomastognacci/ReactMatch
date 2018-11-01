@@ -29,13 +29,26 @@ class App extends PureComponent {
     lastGameScore: 0,
     menuOpen: true,
     headerHeight: 0,
-    isSignedIn: false,
+    isSignedIn: {status: false, message: ""},
+    openSnackbar: false,
     options: {
       difficulty: 0,
     },
   };
-  handleIsSignedIn = (bool) => {
-    this.setState({isSignedIn: bool});
+  handleIsSignedIn = (bool, error = false) => {
+    const {isSignedIn} = this.state;
+    if (bool) {
+      isSignedIn.status = true;
+      isSignedIn.message = "You are signed-in. Your best score will automatically be uploaded.";
+    } else if (!bool && !error) {
+      isSignedIn.status = false;
+      isSignedIn.message = "You are signed-out.";
+    } else if (error && error.message) {
+      isSignedIn.status = false;
+      isSignedIn.message = error.message;
+    }
+
+    this.setState({isSignedIn, openSnackbar: true}, () => this.setState({openSnackbar: false}));
   };
   handleScoreUpdate = (lastGameScore) => {
     this.setState({lastGameScore});
@@ -71,6 +84,7 @@ class App extends PureComponent {
       shouldRestart,
       gameEnded,
       isSignedIn,
+      openSnackbar,
     } = this.state;
 
     return (
@@ -97,7 +111,7 @@ class App extends PureComponent {
               gameEnded={gameEnded}
               handleScoreUpdate={this.handleScoreUpdate}
             />
-            <SignInSnackbars isSignedIn={isSignedIn} />
+            <SignInSnackbars openSnackbar={openSnackbar} isSignedIn={isSignedIn} />
           </div>
         </div>
         {gameEnded && <GameEnd />}
