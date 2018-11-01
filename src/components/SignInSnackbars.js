@@ -35,7 +35,7 @@ class SignInSnackbars extends React.PureComponent {
 				}}
 				message={
 					<span id="message-id">
-						{isSignedIn ? "You are signed-in, your best score will automatically be uploaded." : "You are signed-out."}
+						{isSignedIn ? "You are signed-in. Your best score will automatically be uploaded." : "You are signed-out."}
 					</span>
 				}
 				action={[
