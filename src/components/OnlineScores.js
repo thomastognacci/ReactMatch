@@ -8,18 +8,10 @@ import ScoreList from "./ScoreList";
 import base from "../base";
 import SignIn from "./SignIn";
 import { firebaseApp } from "../base";
-import Button from "@material-ui/core/Button";
-import { ViewList } from "mdi-material-ui";
 
-import FullPlayerListDialog from "./FullPlayerListDialog";
+import FullPlayerList from "./FullPlayerList";
 
 const style = {
-	fullList: {
-		marginRight: "1rem",
-	},
-	fullListIcon: {
-		marginLeft: ".5rem",
-	},
 	onlineScoreActions: {
 		display: "flex",
 		flexWrap: "wrap",
@@ -35,7 +27,6 @@ class OnlineScores extends React.PureComponent {
 			secondBestScore: null,
 			thirdBestScore: null,
 		},
-		fullPlayerListOpen: false,
 		fullPlayerList: [],
 		fetchError: false,
 		user: null,
@@ -59,14 +50,6 @@ class OnlineScores extends React.PureComponent {
 		return this.setState({ onlineScores, fullPlayerList: scoreOrdered });
 	};
 
-	handleClick = () => {
-		this.setState({ fullPlayerListOpen: true });
-	};
-
-	handleClose = () => {
-		this.setState({ fullPlayerListOpen: false });
-	};
-
 	authHandler = async data => {
 		const user = {
 			uid: data.user.uid,
@@ -77,13 +60,12 @@ class OnlineScores extends React.PureComponent {
 		// if there is a best score already, push it online
 		this.pushBestScore();
 
-		this.setState({ isSignedIn: true, user }, this.props.handleIsSignedIn(true));
+		this.setState({ isSignedIn: true, user });
 	};
 
 	signOutHandler = async () => {
 		await firebase.auth().signOut();
 		this.setState({ isSignedIn: false, user: null });
-		this.props.handleIsSignedIn(false);
 	};
 
 	authenticate = () => {
@@ -121,6 +103,7 @@ class OnlineScores extends React.PureComponent {
 			name: user.name,
 		};
 
+		console.debug("New best score");
 		if (Array.isArray(fullPlayerList)) {
 			// Check if user already has a score in the DB, and if the new best score is higher than the previous one
 			if (fullPlayerList.length !== 0) {
@@ -129,10 +112,13 @@ class OnlineScores extends React.PureComponent {
 				});
 
 				if (dbEntry) {
+					console.debug("Player exist!");
 					// skip the entry is user already in DB but the score is lower than the previous one
 					if (dbEntry.score > newEntry.score) {
+						console.debug("Score is lower than the one in the DB, return");
 						return;
 					} else {
+						console.debug("Updated the score for that player");
 						return base.update(`scores/${dbEntry.key}`, {
 							data: newEntry,
 							then(err) {
@@ -143,6 +129,7 @@ class OnlineScores extends React.PureComponent {
 				}
 			}
 			// otherwise, create new entry
+			console.debug("New player entered");
 			return base.push("scores", {
 				data: newEntry,
 				then(err) {
@@ -168,30 +155,19 @@ class OnlineScores extends React.PureComponent {
 
 	render() {
 		const { classes } = this.props;
-		const { onlineScores, isSignedIn, fullPlayerList, fullPlayerListOpen, fetchError, user } = this.state;
+		const {
+			onlineScores,
+			isSignedIn,
+			fullPlayerList,
+
+			fetchError,
+			user,
+		} = this.state;
 		return (
 			<React.Fragment>
 				<ScoreList fetchError={fetchError} online {...onlineScores} />
 				<div className={classes.onlineScoreActions}>
-					{/* // TODO Move to its own component */}
-					<Button
-						color="primary"
-						className={classes.fullList}
-						size="small"
-						onClick={this.handleClick}
-						disabled={fetchError}
-					>
-						View Full List
-						<ViewList className={classes.fullListIcon} />
-					</Button>
-					<FullPlayerListDialog
-						user={user}
-						handleClose={this.handleClose}
-						open={fullPlayerListOpen}
-						fullPlayerList={fullPlayerList}
-					/>
-					{/* // TODO /end Move to its own component */}
-
+					<FullPlayerList user={user} fullPlayerList={fullPlayerList} fetchError={fetchError} />
 					<SignIn signOutHandler={this.signOutHandler} isSignedIn={isSignedIn} authenticate={this.authenticate} />
 				</div>
 			</React.Fragment>
