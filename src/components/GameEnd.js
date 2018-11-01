@@ -18,15 +18,16 @@ const style = {
 };
 class GameEnd extends React.PureComponent {
   render() {
-    const size = {
+    const options = {
       width: window.innerWidth,
       height: window.innerHeight,
-      numberOfPieces: 250,
+      numberOfPieces: 100,
+      gravity: 0.25,
     };
     const {classes} = this.props;
     return (
       <div className={classes.confettiContainer}>
-        <Confetti recycle={false} className={classes.confetti} {...size} />
+        <Confetti recycle={false} className={classes.confetti} {...options} />
       </div>
     );
   }
