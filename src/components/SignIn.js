@@ -7,72 +7,61 @@ import { Login, Logout } from "mdi-material-ui";
 
 const style = {
 	signInOutIcons: {
-		marginLeft: "0.5rem"
-	}
+		marginLeft: "0.5rem",
+	},
+	snackbar: {
+		position: "fixed",
+		right: "0",
+	},
 };
 
 class SignIn extends React.PureComponent {
 	state = {
-		signInOpen: false,
-		signOutOpen: false
+		signInDialogOpen: false,
 	};
 
 	handleClick = signInorOut => {
 		if (signInorOut === "signIn") {
-			this.setState({ signInOpen: true, signOutOpen: false });
+			this.setState({ signInDialogOpen: true });
 		} else {
 			this.props.signOutHandler();
-			this.setState({ signInOpen: false, signOutOpen: true });
 		}
 	};
-	handleClose = value => {
-		this.setState({ signInOpen: false, signOutOpen: false });
+	handleClose = () => {
+		this.setState({ signInDialogOpen: false });
 	};
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.isSignedIn !== this.props.isSignedIn) {
+			this.handleClose();
+			this.props.handleIsSignedIn(this.props.isSignedIn);
+		}
+	}
 	render() {
-		const { signInOpen, signOutOpen } = this.state;
-		const { classes, authenticate, isSignedIn, signOutHandler } = this.props;
+		const { signInDialogOpen } = this.state;
+		const { classes, authenticate, isSignedIn } = this.props;
 		return (
 			<React.Fragment>
 				{isSignedIn ? (
-					<Button
-						variant="outlined"
-						color="primary"
-						onClick={this.handleClick}
-						size="small"
-					>
+					<Button variant="outlined" color="primary" onClick={this.handleClick} size="small">
 						Sign out
 						<Logout className={classes.signInOutIcons} />
 					</Button>
 				) : (
-					<Button
-						variant="outlined"
-						color="primary"
-						onClick={() => this.handleClick("signIn")}
-						size="small"
-					>
+					<Button variant="outlined" color="primary" onClick={() => this.handleClick("signIn")} size="small">
 						Sign in
 						<Login className={classes.signInOutIcons} />
 					</Button>
 				)}
-				<SignInDialog
-					signIn
-					isSignedIn={isSignedIn}
-					handleClose={this.handleClose}
-					open={signInOpen}
-					authenticate={authenticate}
-				/>
-				<SignInDialog
-					handleClose={this.handleClose}
-					open={signOutOpen}
-					signOutHandler={signOutHandler}
-				/>
+				<SignInDialog handleClose={this.handleClose} open={signInDialogOpen} authenticate={authenticate} />
 			</React.Fragment>
 		);
 	}
 }
 SignIn.propTypes = {
 	authenticate: PropTypes.func.isRequired,
+	handleIsSignedIn: PropTypes.func.isRequired,
 	signOutHandler: PropTypes.func.isRequired,
-	isSignedIn: PropTypes.bool.isRequired
+	isSignedIn: PropTypes.bool.isRequired,
 };
 export default injectSheet(style)(SignIn);

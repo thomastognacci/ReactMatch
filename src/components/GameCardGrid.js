@@ -14,16 +14,30 @@ const style = {
 		display: "grid",
 		maxWidth: "50em",
 		margin: "auto",
-		gridTemplateColumns: props =>
-			`repeat(auto-fill, ${props.difficulty === 2 ? "4" : "6.5"}em)`,
-
-		gridAutoRows: props => `${props.difficulty === 2 ? "4" : "6.5"}em`,
 		justifyContent: "center",
-		gridGap: "1em"
+		gridGap: "1em",
 	},
 	easyGrid: {
-		maxWidth: "32em"
-	}
+		gridTemplateColumns: "repeat(3, 8.5em)",
+		gridAutoRows: "8.5em",
+	},
+	mediumGrid: {
+		gridTemplateColumns: "repeat(4, 6.5em)",
+		gridAutoRows: "6.5em",
+		"@media (max-width: 40em)": {
+			gridTemplateColumns: "repeat(4, calc(25vw - 1.5em))",
+			gridAutoRows: "calc(25vw - 1.5em)",
+		},
+	},
+	hardGrid: {
+		gridTemplateColumns: "repeat(5, 5em)",
+		gridAutoRows: "5em",
+
+		"@media (max-width: 40em)": {
+			gridTemplateColumns: "repeat(5, calc(20vw - 1.5em))",
+			gridAutoRows: "calc(20vw - 1.5em)",
+		},
+	},
 };
 
 class GameCardGrid extends React.PureComponent {
@@ -37,11 +51,13 @@ class GameCardGrid extends React.PureComponent {
 			difficulty,
 			activeCard,
 			previousTwoCards,
-			shouldRestart
+			shouldRestart,
 		} = this.props;
 		const gridClasses = cx(
 			classes.gameGrid,
-			difficulty === "easy" && classes.easyGrid
+			difficulty === 0 && classes.easyGrid,
+			difficulty === 1 && classes.mediumGrid,
+			difficulty === 2 && classes.hardGrid,
 		);
 
 		return (
@@ -69,9 +85,9 @@ GameCardGrid.propTypes = {
 	difficulty: PropTypes.number.isRequired,
 	activeCard: PropTypes.exact({
 		card: PropTypes.string.isRequired,
-		index: PropTypes.number.isRequired
+		index: PropTypes.number.isRequired,
 	}),
 	previousTwoCards: PropTypes.array.isRequired,
-	shouldRestart: PropTypes.bool.isRequired
+	shouldRestart: PropTypes.bool.isRequired,
 };
 export default injectSheet(style)(GameCardGrid);

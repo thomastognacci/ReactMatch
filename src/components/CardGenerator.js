@@ -1,24 +1,41 @@
 import React from "react";
 import { emojiFullList } from "../list-of-cards";
 import PropTypes from "prop-types";
+import injectSheet from "react-jss";
+import cx from "classnames";
 
 import GameCard from "./GameCard";
+
+const style = {
+	emptyCell: {
+		opacity: "0",
+		pointerEvents: "none",
+	},
+	emptyCellHard: {
+		gridRow: "3",
+		gridColumn: "3",
+	},
+	emptyCellEasy: {
+		gridRow: "2",
+		gridColumn: "2",
+	},
+};
 class CardGenerator extends React.PureComponent {
 	state = {
-		displayCards: false
+		displayCards: false,
 	};
 	generateLevel = () => {
 		const { difficulty } = this.props;
 
 		switch (difficulty) {
 			case 2:
-				this.generateCards(50);
+				this.generateCards(24);
 				break;
 			case 1:
 				this.generateCards(16);
 				break;
 			default:
-				this.generateCards(2);
+				this.generateCards(8);
 				break;
 		}
 	};
@@ -34,8 +51,7 @@ class CardGenerator extends React.PureComponent {
 
 			return nums;
 		};
-		const randomIndex = () =>
-			Math.round(Math.random() * 100) % emojiFullList.length;
+		const randomIndex = () => Math.round(Math.random() * 100) % emojiFullList.length;
 
 		let emojiIndexes = [];
 		for (let i = 0; i < numberOfCards / 2; i++) {
@@ -66,6 +82,7 @@ class CardGenerator extends React.PureComponent {
 		const cardList = shuffledList.map(cardContent => {
 			return { card: cardContent, revealed: false, clicked: false };
 		});
+
 		this.props.handleCardGeneration(cardList);
 	};
 
@@ -79,7 +96,7 @@ class CardGenerator extends React.PureComponent {
 		}
 	}
 
-	static getDerivedStateFromProps(props, state) {
+	static getDerivedStateFromProps(props) {
 		if (props.cardList) {
 			return { displayCards: true };
 		}
@@ -87,15 +104,10 @@ class CardGenerator extends React.PureComponent {
 	}
 
 	render() {
-		const {
-			cardList,
-			activeCard,
-			difficulty,
-			handleCardClicks,
-			previousTwoCards
-		} = this.props;
-
+		const { cardList, activeCard, difficulty, handleCardClicks, previousTwoCards, classes } = this.props;
 		const { displayCards } = this.state;
+
+		const emptyCellClasses = cx(classes.emptyCell, difficulty === 2 ? classes.emptyCellHard : classes.emptyCellEasy);
 
 		// TODO Add CSS transition on start and restart
 		if (displayCards && cardList) {
@@ -111,7 +123,13 @@ class CardGenerator extends React.PureComponent {
 					isActive={Boolean(activeCard.index === index)}
 				/>
 			));
-			return listOfCards;
+
+			return (
+				<>
+					{listOfCards}
+					{difficulty === 2 || difficulty === 0 ? <div className={emptyCellClasses}>Hi there.</div> : null}
+				</>
+			);
 		}
 		return null;
 	}
@@ -120,11 +138,12 @@ class CardGenerator extends React.PureComponent {
 CardGenerator.propTypes = {
 	activeCard: PropTypes.exact({
 		card: PropTypes.string.isRequired,
-		index: PropTypes.number.isRequired
+		index: PropTypes.number.isRequired,
 	}),
 	cardList: PropTypes.array.isRequired,
 	difficulty: PropTypes.number.isRequired,
 	handleCardClicks: PropTypes.func.isRequired,
-	previousTwoCards: PropTypes.array.isRequired
+	previousTwoCards: PropTypes.array.isRequired,
 };
-export default CardGenerator;
+
+export default injectSheet(style)(CardGenerator);

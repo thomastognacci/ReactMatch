@@ -21,6 +21,7 @@ const style = {
     display: "flex",
     flexDirection: "column",
 
+<<<<<<< HEAD
     "@media (max-width: 60em)": {
       position: "fixed",
       display: "block",
@@ -106,5 +107,89 @@ Menu.propTypes = {
   gameStarted: PropTypes.bool.isRequired,
   lastGameScore: PropTypes.number.isRequired,
   menuOpen: PropTypes.bool.isRequired,
+=======
+		"@media (max-width: 60em)": {
+			position: "fixed",
+			display: "block",
+			width: "100%",
+			height: "100%",
+			overflow: "auto",
+			top: "0",
+			right: "0",
+			bottom: "0",
+			left: "0",
+			background: "#FFF",
+			zIndex: "1",
+			border: "none",
+			transition: "transform .25s ease-out",
+			// Figure out why is this not 60fps
+			transform: props => (props.menuOpen ? "translateX(0)" : "translateY(-100%)"),
+		},
+	},
+	topMenu: {
+		padding: "1rem",
+		"@media (max-width: 60em)": {
+			marginTop: "80px",
+		},
+	},
+};
+class Menu extends React.PureComponent {
+	render() {
+		const {
+			classes,
+			handleDifficultyChange,
+			difficulty,
+			handleRestart,
+			handleStart,
+			gameStarted,
+			lastGameScore,
+			handleIsSignedIn,
+		} = this.props;
+		let difficultyString = "Easy";
+		if (difficulty === 1) difficultyString = "Medium";
+		if (difficulty === 2) difficultyString = "Hard";
+
+		return (
+			<div className={classes.mainMenu}>
+				<div className={classes.topMenu}>
+					<SelectDifficulty difficulty={difficulty} handleDifficultyChange={handleDifficultyChange} />
+					<ExpansionPanel elevation={0}>
+						<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>More Options</ExpansionPanelSummary>
+						<ExpansionPanelDetails>
+							<Typography>
+								<span aria-label="poop emoji" role="img">
+									💩
+								</span>
+								Nothing here for now!
+							</Typography>
+						</ExpansionPanelDetails>
+					</ExpansionPanel>
+					{gameStarted ? (
+						<Button onClick={handleRestart} fullWidth={true} variant="contained" color="secondary">
+							<Typography variant="button">Restart</Typography> &nbsp;-&nbsp;
+							<Typography variant="caption">{difficultyString}</Typography>
+						</Button>
+					) : (
+						<Button onClick={handleStart} fullWidth={true} variant="contained" color="primary">
+							Start!
+						</Button>
+					)}
+				</div>
+				<Scoreboard handleIsSignedIn={handleIsSignedIn} lastGameScore={lastGameScore} />
+			</div>
+		);
+	}
+}
+
+Menu.propTypes = {
+	handleStart: PropTypes.func.isRequired,
+	handleRestart: PropTypes.func.isRequired,
+	handleDifficultyChange: PropTypes.func.isRequired,
+	handleIsSignedIn: PropTypes.func.isRequired,
+	difficulty: PropTypes.number.isRequired,
+	gameStarted: PropTypes.bool.isRequired,
+	lastGameScore: PropTypes.number.isRequired,
+	menuOpen: PropTypes.bool.isRequired,
+>>>>>>> ed65b5518efadd6d565e626eb26da9db62ae6d3c
 };
 export default injectSheet(style)(Menu);
