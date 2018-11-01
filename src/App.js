@@ -10,7 +10,6 @@ import Game from "./components/Game";
 import SignInSnackbars from "./components/SignInSnackbars";
 
 const style = {
-<<<<<<< HEAD
   App: {
     position: "relative",
     display: "flex",
@@ -30,9 +29,13 @@ class App extends PureComponent {
     lastGameScore: 0,
     menuOpen: true,
     headerHeight: 0,
+    isSignedIn: false,
     options: {
       difficulty: 0,
     },
+  };
+  handleIsSignedIn = (bool) => {
+    this.setState({isSignedIn: bool});
   };
   handleScoreUpdate = (lastGameScore) => {
     this.setState({lastGameScore});
@@ -60,7 +63,15 @@ class App extends PureComponent {
   };
   render() {
     const {classes} = this.props;
-    const {menuOpen, options, lastGameScore, gameStarted, shouldRestart, gameEnded} = this.state;
+    const {
+      menuOpen,
+      options,
+      lastGameScore,
+      gameStarted,
+      shouldRestart,
+      gameEnded,
+      isSignedIn,
+    } = this.state;
 
     return (
       <MuiThemeProvider theme={MainTheme}>
@@ -76,6 +87,7 @@ class App extends PureComponent {
               gameStarted={gameStarted}
               lastGameScore={lastGameScore}
               handleMenuOpens={this.handleMenuOpens}
+              handleIsSignedIn={this.handleIsSignedIn}
             />
             <Game
               difficulty={options.difficulty}
@@ -85,100 +97,13 @@ class App extends PureComponent {
               gameEnded={gameEnded}
               handleScoreUpdate={this.handleScoreUpdate}
             />
+            <SignInSnackbars isSignedIn={isSignedIn} />
           </div>
         </div>
         {gameEnded && <GameEnd />}
       </MuiThemeProvider>
     );
   }
-=======
-	App: {
-		position: "relative",
-		display: "flex",
-		height: "100vh",
-		flexDirection: "column",
-	},
-	pageCT: {
-		display: "flex",
-		height: "100%",
-	},
-};
-class App extends PureComponent {
-	state = {
-		gameStarted: false,
-		gameEnded: false,
-		shouldRestart: false,
-		lastGameScore: 0,
-		menuOpen: true,
-		headerHeight: 0,
-		isSignedIn: false,
-		options: {
-			difficulty: 0,
-		},
-	};
-	handleIsSignedIn = bool => {
-		this.setState({ isSignedIn: bool });
-	};
-	handleScoreUpdate = lastGameScore => {
-		this.setState({ lastGameScore });
-	};
-	handleMenuOpens = () => {
-		this.setState(prevState => ({
-			menuOpen: !prevState.menuOpen,
-		}));
-	};
-	handleDifficultyChange = e => {
-		const options = { ...this.state.options };
-
-		options.difficulty = parseInt(e.target.value);
-		this.setState({ options });
-	};
-	handleEnd = () => {
-		this.setState({ gameEnded: true });
-	};
-	handleStart = () => {
-		this.setState({ gameStarted: true, menuOpen: false });
-	};
-	handleRestart = () => {
-		this.setState({ gameEnded: false, shouldRestart: true, menuOpen: false });
-		setTimeout(() => this.setState({ shouldRestart: false }));
-	};
-	render() {
-		const { classes } = this.props;
-		const { menuOpen, options, lastGameScore, gameStarted, shouldRestart, gameEnded, isSignedIn } = this.state;
-
-		return (
-			<MuiThemeProvider theme={MainTheme}>
-				<div className={classes.App}>
-					<Header menuOpen={menuOpen} handleMenuOpens={this.handleMenuOpens} />
-					<div className={classes.pageCT}>
-						<Menu
-							menuOpen={menuOpen}
-							difficulty={options.difficulty}
-							handleStart={this.handleStart}
-							handleRestart={this.handleRestart}
-							handleDifficultyChange={this.handleDifficultyChange}
-							gameStarted={gameStarted}
-							lastGameScore={lastGameScore}
-							handleMenuOpens={this.handleMenuOpens}
-							handleIsSignedIn={this.handleIsSignedIn}
-						/>
-						<Game
-							difficulty={options.difficulty}
-							shouldRestart={shouldRestart}
-							gameStarted={gameStarted}
-							handleEnd={this.handleEnd}
-							gameEnded={gameEnded}
-							handleScoreUpdate={this.handleScoreUpdate}
-						/>
-						<SignInSnackbars isSignedIn={isSignedIn} />
-					</div>
-				</div>
-				{gameEnded && <GameEnd />}
-			</MuiThemeProvider>
-		);
-	}
->>>>>>> ed65b5518efadd6d565e626eb26da9db62ae6d3c
 }
 
 export default injectSheet(style)(App);
