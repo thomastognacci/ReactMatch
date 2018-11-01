@@ -11,12 +11,13 @@ import SignInSnackbars from "./components/SignInSnackbars";
 
 const style = {
   App: {
-    position: "relative",
     display: "flex",
     height: "100vh",
     flexDirection: "column",
 
     "@media (max-width: 60em)": {
+      position: "fixed",
+      width: "100%",
       height: "auto",
     },
   },

@@ -1,5 +1,5 @@
 import React from "react";
-import {emojiFullList} from "../list-of-cards";
+import {emojiFullList} from "../helpers/list-of-cards";
 import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import cx from "classnames";
