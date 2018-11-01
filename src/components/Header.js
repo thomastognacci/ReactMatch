@@ -35,6 +35,14 @@ const style = {
     "@media (max-width: 60em)": {
       display: "inline-flex",
     },
+
+    "@media (max-width: 40em)": {
+      fontSize: "0",
+
+      "& svg": {
+        margin: "0",
+      },
+    },
   },
   menuIcon: {
     marginLeft: "0.5rem",

@@ -15,6 +15,10 @@ const style = {
     display: "flex",
     height: "100vh",
     flexDirection: "column",
+
+    "@media (max-width: 60em)": {
+      height: "auto",
+    },
   },
   pageCT: {
     display: "flex",
