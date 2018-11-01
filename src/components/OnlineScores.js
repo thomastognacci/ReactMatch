@@ -154,21 +154,19 @@ class OnlineScores extends React.PureComponent {
 	}
 
 	render() {
-		const { classes } = this.props;
-		const {
-			onlineScores,
-			isSignedIn,
-			fullPlayerList,
-
-			fetchError,
-			user,
-		} = this.state;
+		const { classes, handleIsSignedIn } = this.props;
+		const { onlineScores, isSignedIn, fullPlayerList, fetchError, user } = this.state;
 		return (
 			<React.Fragment>
 				<ScoreList fetchError={fetchError} online {...onlineScores} />
 				<div className={classes.onlineScoreActions}>
 					<FullPlayerList user={user} fullPlayerList={fullPlayerList} fetchError={fetchError} />
-					<SignIn signOutHandler={this.signOutHandler} isSignedIn={isSignedIn} authenticate={this.authenticate} />
+					<SignIn
+						handleIsSignedIn={handleIsSignedIn}
+						signOutHandler={this.signOutHandler}
+						isSignedIn={isSignedIn}
+						authenticate={this.authenticate}
+					/>
 				</div>
 			</React.Fragment>
 		);
@@ -177,6 +175,7 @@ class OnlineScores extends React.PureComponent {
 
 OnlineScores.propTypes = {
 	handleLocalScores: PropTypes.func.isRequired,
+	handleIsSignedIn: PropTypes.func.isRequired,
 	localScores: PropTypes.shape({
 		bestScore: PropTypes.object,
 		secondBestScore: PropTypes.object,

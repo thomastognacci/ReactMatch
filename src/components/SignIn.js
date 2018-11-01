@@ -32,8 +32,9 @@ class SignIn extends React.PureComponent {
 	};
 
 	componentDidUpdate(prevProps) {
-		if (this.props.isSignedIn && prevProps.isSignedIn !== this.props.isSignedIn) {
+		if (prevProps.isSignedIn !== this.props.isSignedIn) {
 			this.handleClose();
+			this.props.handleIsSignedIn(this.props.isSignedIn);
 		}
 	}
 	render() {
@@ -59,6 +60,7 @@ class SignIn extends React.PureComponent {
 }
 SignIn.propTypes = {
 	authenticate: PropTypes.func.isRequired,
+	handleIsSignedIn: PropTypes.func.isRequired,
 	signOutHandler: PropTypes.func.isRequired,
 	isSignedIn: PropTypes.bool.isRequired,
 };
