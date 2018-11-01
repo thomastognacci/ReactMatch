@@ -77,12 +77,13 @@ class OnlineScores extends React.PureComponent {
 		// if there is a best score already, push it online
 		this.pushBestScore();
 
-		this.setState({ isSignedIn: true, user });
+		this.setState({ isSignedIn: true, user }, this.props.handleIsSignedIn(true));
 	};
 
 	signOutHandler = async () => {
 		await firebase.auth().signOut();
 		this.setState({ isSignedIn: false, user: null });
+		this.props.handleIsSignedIn(false);
 	};
 
 	authenticate = () => {

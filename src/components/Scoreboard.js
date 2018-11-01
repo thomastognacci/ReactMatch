@@ -38,7 +38,7 @@ class Scoreboard extends React.PureComponent {
 
 	render() {
 		const { localScores } = this.state;
-		const { classes, lastGameScore } = this.props;
+		const { classes, lastGameScore, handleIsSignedIn } = this.props;
 		return (
 			<React.Fragment>
 				<Typography className={classes.scoreboard} variant="overline" align="center">
@@ -61,7 +61,11 @@ class Scoreboard extends React.PureComponent {
 						localScores={localScores}
 						handleLocalScores={this.handleLocalScores}
 					/>
-					<OnlineScores handleLocalScores={this.handleLocalScores} localScores={localScores} />
+					<OnlineScores
+						handleIsSignedIn={handleIsSignedIn}
+						handleLocalScores={this.handleLocalScores}
+						localScores={localScores}
+					/>
 				</SwipeableViews>
 			</React.Fragment>
 		);
@@ -70,6 +74,7 @@ class Scoreboard extends React.PureComponent {
 
 Scoreboard.propTypes = {
 	lastGameScore: PropTypes.number.isRequired,
+	handleIsSignedIn: PropTypes.func.isRequired,
 };
 
 export default injectSheet(style)(Scoreboard);

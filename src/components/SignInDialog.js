@@ -17,86 +17,58 @@ class SignInDialog extends React.PureComponent {
 		alert("Not implemented yet :(");
 	}
 	render() {
-		const { open, authenticate, handleClose, signIn, isSignedIn } = this.props;
+		const { open, authenticate, handleClose } = this.props;
 		return (
 			<Dialog onClose={handleClose} open={open}>
-				{signIn ? (
+				<React.Fragment>
+					<DialogTitle id="simple-dialog-title">Please select your sign-in method</DialogTitle>
 					<React.Fragment>
-						<DialogTitle id="simple-dialog-title">
-							{isSignedIn ? "Success" : "Please select your sign-in method"}
-						</DialogTitle>
-						{isSignedIn ? (
-							<DialogContent>
-								<DialogContentText>
-									Your best score will be uploaded automatically in the
-									ladderboard
-								</DialogContentText>
-							</DialogContent>
-						) : (
-							<React.Fragment>
-								<DialogContent>
-									<DialogContentText>
-										Sign-in to have your best score uploaded and see how you do
-										compare to the rest of the world!{" "}
-										<span style={{ fontSize: ".5em" }}> and cheaters</span>
-									</DialogContentText>
-								</DialogContent>
-								<List>
-									<ListItem button onClick={authenticate}>
-										<ListItemIcon>
-											<Facebook />
-										</ListItemIcon>
-										<ListItemText primary="Facebook" />
-									</ListItem>
-									<ListItem button onClick={this.handleNotImplemented}>
-										<ListItemIcon>
-											<Twitter />
-										</ListItemIcon>
-										<ListItemText primary="Twitter" />
-									</ListItem>
-									<ListItem button onClick={this.handleNotImplemented}>
-										<ListItemIcon>
-											<Google />
-										</ListItemIcon>
-										<ListItemText primary="Google" />
-									</ListItem>
-									<ListItem button onClick={this.handleNotImplemented}>
-										<ListItemIcon>
-											<GithubCircle />
-										</ListItemIcon>
-										<ListItemText primary="GitHub" />
-									</ListItem>
-								</List>
-							</React.Fragment>
-						)}
-						<DialogActions>
-							<Button color="primary" onClick={handleClose}>
-								Close
-							</Button>
-						</DialogActions>
-					</React.Fragment>
-				) : (
-					<React.Fragment>
-						<DialogTitle id="simple-dialog-title">Signed out</DialogTitle>
 						<DialogContent>
 							<DialogContentText>
-								You are no longer signed-in.
+								Sign-in to have your best score uploaded and see how you do compare to the rest of the world!{" "}
+								<span style={{ fontSize: ".5em" }}> and cheaters</span>
 							</DialogContentText>
 						</DialogContent>
-						<DialogActions>
-							<Button onClick={handleClose}>Ok</Button>
-						</DialogActions>
+						<List>
+							<ListItem button onClick={authenticate}>
+								<ListItemIcon>
+									<Facebook />
+								</ListItemIcon>
+								<ListItemText primary="Facebook" />
+							</ListItem>
+							<ListItem button onClick={this.handleNotImplemented}>
+								<ListItemIcon>
+									<Twitter />
+								</ListItemIcon>
+								<ListItemText primary="Twitter" />
+							</ListItem>
+							<ListItem button onClick={this.handleNotImplemented}>
+								<ListItemIcon>
+									<Google />
+								</ListItemIcon>
+								<ListItemText primary="Google" />
+							</ListItem>
+							<ListItem button onClick={this.handleNotImplemented}>
+								<ListItemIcon>
+									<GithubCircle />
+								</ListItemIcon>
+								<ListItemText primary="GitHub" />
+							</ListItem>
+						</List>
 					</React.Fragment>
-				)}
+					<DialogActions>
+						<Button color="primary" onClick={handleClose}>
+							Close
+						</Button>
+					</DialogActions>
+				</React.Fragment>
 			</Dialog>
 		);
 	}
 }
 SignInDialog.propTypes = {
-	authenticate: PropTypes.func,
-	signOutHandler: PropTypes.func,
+	authenticate: PropTypes.func.isRequired,
+	handleClose: PropTypes.func.isRequired,
 	open: PropTypes.bool.isRequired,
-	signIn: PropTypes.bool,
-	isSignedIn: PropTypes.bool
 };
 export default SignInDialog;

@@ -7,18 +7,19 @@ import MainTheme from "./components/ui/MainTheme";
 import Header from "./components/Header";
 import Menu from "./components/Menu";
 import Game from "./components/Game";
+import SignInSnackbars from "./components/SignInSnackbars";
 
 const style = {
 	App: {
 		position: "relative",
 		display: "flex",
 		height: "100vh",
-		flexDirection: "column"
+		flexDirection: "column",
 	},
 	pageCT: {
 		display: "flex",
-		height: "100%"
-	}
+		height: "100%",
+	},
 };
 class App extends PureComponent {
 	state = {
@@ -28,16 +29,20 @@ class App extends PureComponent {
 		lastGameScore: 0,
 		menuOpen: true,
 		headerHeight: 0,
+		isSignedIn: false,
 		options: {
-			difficulty: 0
-		}
+			difficulty: 0,
+		},
+	};
+	handleIsSignedIn = bool => {
+		this.setState({ isSignedIn: bool });
 	};
 	handleScoreUpdate = lastGameScore => {
 		this.setState({ lastGameScore });
 	};
 	handleMenuOpens = () => {
 		this.setState(prevState => ({
-			menuOpen: !prevState.menuOpen
+			menuOpen: !prevState.menuOpen,
 		}));
 	};
 	handleDifficultyChange = e => {
@@ -58,14 +63,7 @@ class App extends PureComponent {
 	};
 	render() {
 		const { classes } = this.props;
-		const {
-			menuOpen,
-			options,
-			lastGameScore,
-			gameStarted,
-			shouldRestart,
-			gameEnded
-		} = this.state;
+		const { menuOpen, options, lastGameScore, gameStarted, shouldRestart, gameEnded, isSignedIn } = this.state;
 
 		return (
 			<MuiThemeProvider theme={MainTheme}>
@@ -81,6 +79,7 @@ class App extends PureComponent {
 							gameStarted={gameStarted}
 							lastGameScore={lastGameScore}
 							handleMenuOpens={this.handleMenuOpens}
+							handleIsSignedIn={this.handleIsSignedIn}
 						/>
 						<Game
 							difficulty={options.difficulty}
@@ -90,6 +89,7 @@ class App extends PureComponent {
 							gameEnded={gameEnded}
 							handleScoreUpdate={this.handleScoreUpdate}
 						/>
+						<SignInSnackbars isSignedIn={isSignedIn} />
 					</div>
 				</div>
 				{gameEnded && <GameEnd />}

@@ -36,16 +36,15 @@ const style = {
 			border: "none",
 			transition: "transform .25s ease-out",
 			// Figure out why is this not 60fps
-			transform: props =>
-				props.menuOpen ? "translateX(0)" : "translateY(-100%)"
-		}
+			transform: props => (props.menuOpen ? "translateX(0)" : "translateY(-100%)"),
+		},
 	},
 	topMenu: {
 		padding: "1rem",
 		"@media (max-width: 60em)": {
-			marginTop: "80px"
-		}
-	}
+			marginTop: "80px",
+		},
+	},
 };
 class Menu extends React.PureComponent {
 	render() {
@@ -56,7 +55,8 @@ class Menu extends React.PureComponent {
 			handleRestart,
 			handleStart,
 			gameStarted,
-			lastGameScore
+			lastGameScore,
+			handleIsSignedIn,
 		} = this.props;
 		let difficultyString = "Easy";
 		if (difficulty === 1) difficultyString = "Medium";
@@ -65,14 +65,9 @@ class Menu extends React.PureComponent {
 		return (
 			<div className={classes.mainMenu}>
 				<div className={classes.topMenu}>
-					<SelectDifficulty
-						difficulty={difficulty}
-						handleDifficultyChange={handleDifficultyChange}
-					/>
+					<SelectDifficulty difficulty={difficulty} handleDifficultyChange={handleDifficultyChange} />
 					<ExpansionPanel elevation={0}>
-						<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-							More Options
-						</ExpansionPanelSummary>
+						<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>More Options</ExpansionPanelSummary>
 						<ExpansionPanelDetails>
 							<Typography>
 								<span aria-label="poop emoji" role="img">
@@ -83,27 +78,17 @@ class Menu extends React.PureComponent {
 						</ExpansionPanelDetails>
 					</ExpansionPanel>
 					{gameStarted ? (
-						<Button
-							onClick={handleRestart}
-							fullWidth={true}
-							variant="contained"
-							color="secondary"
-						>
+						<Button onClick={handleRestart} fullWidth={true} variant="contained" color="secondary">
 							<Typography variant="button">Restart</Typography> &nbsp;-&nbsp;
 							<Typography variant="caption">{difficultyString}</Typography>
 						</Button>
 					) : (
-						<Button
-							onClick={handleStart}
-							fullWidth={true}
-							variant="contained"
-							color="primary"
-						>
+						<Button onClick={handleStart} fullWidth={true} variant="contained" color="primary">
 							Start!
 						</Button>
 					)}
 				</div>
-				<Scoreboard lastGameScore={lastGameScore} />
+				<Scoreboard handleIsSignedIn={handleIsSignedIn} lastGameScore={lastGameScore} />
 			</div>
 		);
 	}
@@ -113,9 +98,10 @@ Menu.propTypes = {
 	handleStart: PropTypes.func.isRequired,
 	handleRestart: PropTypes.func.isRequired,
 	handleDifficultyChange: PropTypes.func.isRequired,
+	handleIsSignedIn: PropTypes.func.isRequired,
 	difficulty: PropTypes.number.isRequired,
 	gameStarted: PropTypes.bool.isRequired,
 	lastGameScore: PropTypes.number.isRequired,
-	menuOpen: PropTypes.bool.isRequired
+	menuOpen: PropTypes.bool.isRequired,
 };
 export default injectSheet(style)(Menu);
