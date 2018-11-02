@@ -17,8 +17,8 @@ const style = {
 
     "@media (max-width: 60em)": {
       position: "fixed",
-      width: "100%",
-      height: "auto",
+      left: 0,
+      right: 0,
     },
   },
   pageCT: {

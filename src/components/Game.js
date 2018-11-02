@@ -13,6 +13,10 @@ const style = {
     flex: "1",
     maxWidth: "100%",
     overflow: "hidden",
+
+    "@media (min-width: 60em)": {
+      //   marginBottom: "150px",
+    },
   },
   game: {
     padding: "1em 1em 0 1em",
