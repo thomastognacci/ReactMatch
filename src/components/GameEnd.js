@@ -28,7 +28,7 @@ class GameEnd extends React.PureComponent {
     return (
       <div className={classes.confettiContainer}>
         <Confetti recycle={false} className={classes.confetti} {...options} />
-        <audio autoPlay playsinline>
+        <audio autoPlay>
           <source src="./sounds/yay.mp3" type="audio/mpeg" />
         </audio>
       </div>
