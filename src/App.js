@@ -109,6 +109,7 @@ class App extends PureComponent {
               handleIsSignedIn={this.handleIsSignedIn}
             />
             <Game
+              handleRestart={this.handleRestart}
               difficulty={options.difficulty}
               shouldRestart={shouldRestart}
               gameStarted={gameStarted}
