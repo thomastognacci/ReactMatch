@@ -24,7 +24,7 @@ const style = {
   mediumGrid: {
     gridTemplateColumns: "repeat(4, 6.5em)",
     gridAutoRows: "6.5em",
-    "@media (max-width: 40em)": {
+    "@media (max-width: 30em)": {
       gridTemplateColumns: "repeat(4, calc(25vw - 1.5em))",
       gridAutoRows: "calc(25vw - 1.5em)",
     },
@@ -33,7 +33,7 @@ const style = {
     gridTemplateColumns: "repeat(5, 5em)",
     gridAutoRows: "5em",
 
-    "@media (max-width: 40em)": {
+    "@media (max-width: 35em)": {
       gridTemplateColumns: "repeat(5, calc(20vw - 1.5em))",
       gridAutoRows: "calc(20vw - 1.5em)",
     },
