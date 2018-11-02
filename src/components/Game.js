@@ -120,7 +120,6 @@ class Game extends PureComponent {
       displayCards,
       activeCard,
       previousTwoCards,
-      difficulty,
       totalClickCount,
       pairRevealedCount,
       gameDuration,
@@ -144,7 +143,7 @@ class Game extends PureComponent {
               activeCard={activeCard}
               displayCards={displayCards}
               cardList={cardList}
-              difficulty={difficulty}
+              difficulty={this.state.difficulty}
               shouldRestart={shouldRestart}
             />
           ) : (
@@ -161,7 +160,7 @@ class Game extends PureComponent {
           totalClickCount={totalClickCount}
           pairRevealedCount={pairRevealedCount}
           cardListCount={cardList.length}
-          difficulty={difficulty}
+          difficulty={this.props.difficulty}
           handleScoreUpdate={handleScoreUpdate}
         />
       </div>

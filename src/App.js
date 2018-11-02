@@ -36,9 +36,7 @@ class App extends PureComponent {
     headerHeight: 0,
     isSignedIn: {status: false, message: ""},
     openSnackbar: false,
-    options: {
-      difficulty: 0,
-    },
+    difficulty: 0,
   };
   handleIsSignedIn = (bool, error = false) => {
     const {isSignedIn} = this.state;
@@ -64,10 +62,7 @@ class App extends PureComponent {
     }));
   };
   handleDifficultyChange = (e) => {
-    const options = {...this.state.options};
-
-    options.difficulty = parseInt(e.target.value);
-    this.setState({options});
+    this.setState({difficulty: parseInt(e.target.value)});
   };
   handleEnd = () => {
     this.setState({gameEnded: true});
@@ -83,7 +78,7 @@ class App extends PureComponent {
     const {classes} = this.props;
     const {
       menuOpen,
-      options,
+      difficulty,
       lastGameScore,
       gameStarted,
       shouldRestart,
@@ -99,7 +94,7 @@ class App extends PureComponent {
           <div className={classes.pageCT}>
             <Menu
               menuOpen={menuOpen}
-              difficulty={options.difficulty}
+              difficulty={difficulty}
               handleStart={this.handleStart}
               handleRestart={this.handleRestart}
               handleDifficultyChange={this.handleDifficultyChange}
@@ -110,7 +105,7 @@ class App extends PureComponent {
             />
             <Game
               handleRestart={this.handleRestart}
-              difficulty={options.difficulty}
+              difficulty={difficulty}
               shouldRestart={shouldRestart}
               gameStarted={gameStarted}
               handleEnd={this.handleEnd}

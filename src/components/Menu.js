@@ -35,7 +35,6 @@ const style = {
       zIndex: "1",
       border: "none",
       transition: "transform .25s ease-out",
-      // Figure out why is this not 60fps
       transform: (props) => (props.menuOpen ? "translateX(0)" : "translateY(-100%)"),
     },
   },
