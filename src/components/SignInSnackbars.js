@@ -14,7 +14,10 @@ class SignInSnackbars extends React.PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.isSignedIn !== this.props.isSignedIn) {
+    if (
+      prevProps.signInMessage !== this.props.signInMessage ||
+      prevProps.isSignedIn !== this.props.isSignedIn
+    ) {
       this.setState({open: true});
     }
   }

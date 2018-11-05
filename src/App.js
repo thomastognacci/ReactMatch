@@ -48,6 +48,8 @@ class App extends PureComponent {
       isSignedIn = false;
       signInMessage = "You are signed-out.";
     } else if (error && error.message) {
+      console.log(error);
+
       isSignedIn = false;
       signInMessage = error.message;
     }
