@@ -17,18 +17,30 @@ const style = {
   },
 };
 class GameEnd extends React.PureComponent {
+  state = {
+    soundIsPlaying: false,
+  };
+
+  handlePlay = () => {
+    setTimeout(() => {
+      this.setState({soundIsPlaying: true});
+    }, 500);
+  };
+
   render() {
+    const {soundIsPlaying} = this.state;
     const options = {
       width: window.innerWidth,
       height: window.innerHeight,
       numberOfPieces: 100,
       gravity: 0.25,
+      run: soundIsPlaying,
     };
     const {classes} = this.props;
     return (
       <div className={classes.confettiContainer}>
         <Confetti recycle={false} className={classes.confetti} {...options} />
-        <audio autoPlay>
+        <audio onPlay={this.handlePlay()} autoPlay>
           <source src="./sounds/yay.mp3" type="audio/mpeg" />
         </audio>
       </div>

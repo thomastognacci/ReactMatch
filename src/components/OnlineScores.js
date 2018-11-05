@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import firebase from "firebase/app";
 import "firebase/auth";
+import {firebaseApp} from "../base";
+import base from "../base";
+import Button from "@material-ui/core/Button";
 
 import ScoreList from "./ScoreList";
-import base from "../base";
 import SignIn from "./SignIn";
-import {firebaseApp} from "../base";
-
 import FullPlayerList from "./FullPlayerList";
+import PersonalDataDialog from "./PersonalDataDialog";
 
 const style = {
   onlineScoreActions: {
@@ -31,6 +32,65 @@ class OnlineScores extends React.PureComponent {
     fetchError: false,
     user: null,
     isSignedIn: false,
+    dataDialogOpen: false,
+    dataDeletedStatus: null,
+  };
+
+  handleDataDialogOpen = () => {
+    this.setState({dataDialogOpen: true});
+  };
+
+  handleDataDialogClose = () => {
+    this.setState({dataDialogOpen: false});
+  };
+
+  handleDeleteData = () => {
+    this.makeDatabaseEntryAnonymous((message) => this.setState({dataDeletedStatus: message}));
+    this.signOutHandler();
+    this.fetchDBEntries();
+  };
+
+  makeDatabaseEntryAnonymous = (callback) => {
+    const {fullPlayerList} = this.state;
+    const {user} = this.state;
+
+    if (!this.state.isSignedIn || !user.uid) return;
+
+    const anonymousEntry = {
+      score: null,
+      date: null,
+      uid: user.uid,
+      photoURL: 0,
+      name: "Anonymous",
+    };
+
+    console.debug("Delete entry", user.uid);
+    // Make sure we have the full list of player as an Array
+    if (Array.isArray(fullPlayerList)) {
+      // Check if user already has a score in the DB
+      if (fullPlayerList.length !== 0) {
+        var dbEntry = fullPlayerList.find(function(player) {
+          return player.uid === user.uid;
+        });
+        if (dbEntry) {
+          console.debug("Player has an entry");
+          anonymousEntry.score = dbEntry.score;
+          anonymousEntry.date = dbEntry.date;
+          anonymousEntry.uid = 0;
+          console.debug("Make this entry anonymous");
+          return base.update(`players/${dbEntry.key}`, {
+            data: anonymousEntry,
+            then(err) {
+              if (err) return console.error("Error: ", err);
+              callback("Your data has been deleted and you are signed-out.");
+            },
+          });
+        } else {
+          console.debug("No entry found");
+          callback("No entry from you was found in the database.");
+        }
+      }
+    }
   };
 
   updateOnlineScores = (scores) => {
@@ -60,13 +120,12 @@ class OnlineScores extends React.PureComponent {
     // if there is a best score already, push it online
     // ! there is something wrong here
     // this.pushBestScore();
-
-    this.setState({isSignedIn: true, user});
+    this.setState({isSignedIn: true, user, dataDeletedStatus: null});
   };
 
   signOutHandler = async () => {
     await firebase.auth().signOut();
-    this.setState({isSignedIn: false, user: null});
+    this.setState({isSignedIn: false, user: null, dataDeletedStatus: null});
   };
 
   authenticate = (provider) => {
@@ -78,7 +137,6 @@ class OnlineScores extends React.PureComponent {
       .then(this.authHandler)
       .catch((error) => this.props.handleIsSignedIn(false, error));
   };
-
   fetchDBEntries() {
     base.fetch("players", {
       context: this,
@@ -159,7 +217,15 @@ class OnlineScores extends React.PureComponent {
 
   render() {
     const {classes, handleIsSignedIn} = this.props;
-    const {onlineScores, isSignedIn, fullPlayerList, fetchError, user} = this.state;
+    const {
+      dataDeletedStatus,
+      onlineScores,
+      isSignedIn,
+      fullPlayerList,
+      fetchError,
+      user,
+      dataDialogOpen,
+    } = this.state;
     return (
       <React.Fragment>
         <ScoreList fetchError={fetchError} online {...onlineScores} />
@@ -170,6 +236,18 @@ class OnlineScores extends React.PureComponent {
             signOutHandler={this.signOutHandler}
             isSignedIn={isSignedIn}
             authenticate={this.authenticate}
+          />
+        </div>
+        <div>
+          <Button onClick={this.handleDataDialogOpen} fullWidth={true}>
+            Delete my personal data
+          </Button>
+          <PersonalDataDialog
+            dataDeletedStatus={dataDeletedStatus}
+            handleDataDialogClose={this.handleDataDialogClose}
+            handleDeleteData={this.handleDeleteData}
+            dataDialogOpen={dataDialogOpen}
+            isSignedIn={isSignedIn}
           />
         </div>
       </React.Fragment>

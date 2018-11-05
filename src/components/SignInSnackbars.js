@@ -14,14 +14,14 @@ class SignInSnackbars extends React.PureComponent {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps.openSnackbar !== this.props.openSnackbar) {
+    if (prevProps.isSignedIn !== this.props.isSignedIn) {
       this.setState({open: true});
     }
   }
 
   render() {
     const {open} = this.state;
-    const {isSignedIn} = this.props;
+    const {signInMessage} = this.props;
     return (
       <Snackbar
         anchorOrigin={{
@@ -34,7 +34,7 @@ class SignInSnackbars extends React.PureComponent {
         ContentProps={{
           "aria-describedby": "message-id",
         }}
-        message={<span id="message-id">{isSignedIn.message}</span>}
+        message={<span id="message-id">{signInMessage}</span>}
         action={[
           <IconButton
             key="close"
@@ -52,10 +52,8 @@ class SignInSnackbars extends React.PureComponent {
 }
 
 SignInSnackbars.propTypes = {
-  isSignedIn: PropTypes.shape({
-    status: PropTypes.bool.isRequired,
-    message: PropTypes.string.isRequired,
-  }),
+  isSignedIn: PropTypes.bool.isRequired,
+  signInMessage: PropTypes.string.isRequired,
 };
 
 export default SignInSnackbars;

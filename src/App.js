@@ -34,24 +34,25 @@ class App extends PureComponent {
     lastGameScore: 0,
     menuOpen: true,
     headerHeight: 0,
-    isSignedIn: {status: false, message: ""},
-    openSnackbar: false,
+    isSignedIn: false,
+    signInMessage: "",
+    showSnackbar: false,
     difficulty: 0,
   };
   handleIsSignedIn = (bool, error = false) => {
-    const {isSignedIn} = this.state;
+    let {isSignedIn, signInMessage} = this.state;
     if (bool) {
-      isSignedIn.status = true;
-      isSignedIn.message = "You are signed-in. Your best score will automatically be uploaded.";
+      isSignedIn = true;
+      signInMessage = "You are signed-in. Your best score will automatically be uploaded.";
     } else if (!bool && !error) {
-      isSignedIn.status = false;
-      isSignedIn.message = "You are signed-out.";
+      isSignedIn = false;
+      signInMessage = "You are signed-out.";
     } else if (error && error.message) {
-      isSignedIn.status = false;
-      isSignedIn.message = error.message;
+      isSignedIn = false;
+      signInMessage = error.message;
     }
 
-    this.setState({isSignedIn, openSnackbar: true}, () => this.setState({openSnackbar: false}));
+    this.setState({isSignedIn, signInMessage});
   };
   handleScoreUpdate = (lastGameScore) => {
     this.setState({lastGameScore});
@@ -84,7 +85,7 @@ class App extends PureComponent {
       shouldRestart,
       gameEnded,
       isSignedIn,
-      openSnackbar,
+      signInMessage,
     } = this.state;
 
     return (
@@ -102,6 +103,7 @@ class App extends PureComponent {
               lastGameScore={lastGameScore}
               handleMenuOpens={this.handleMenuOpens}
               handleIsSignedIn={this.handleIsSignedIn}
+              isSignedIn={isSignedIn}
             />
             <Game
               handleRestart={this.handleRestart}
@@ -112,7 +114,7 @@ class App extends PureComponent {
               gameEnded={gameEnded}
               handleScoreUpdate={this.handleScoreUpdate}
             />
-            <SignInSnackbars openSnackbar={openSnackbar} isSignedIn={isSignedIn} />
+            <SignInSnackbars signInMessage={signInMessage} isSignedIn={isSignedIn} />
           </div>
         </div>
         {gameEnded && <GameEnd />}

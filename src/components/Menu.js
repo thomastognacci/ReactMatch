@@ -3,10 +3,6 @@ import injectSheet from "react-jss";
 import PropTypes from "prop-types";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Scoreboard from "./Scoreboard";
 import SelectDifficulty from "./SelectDifficulty";
@@ -68,19 +64,6 @@ class Menu extends React.PureComponent {
             difficulty={difficulty}
             handleDifficultyChange={handleDifficultyChange}
           />
-          <ExpansionPanel elevation={0}>
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              More Options
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Typography>
-                <span aria-label="poop emoji" role="img">
-                  💩
-                </span>
-                Nothing here for now!
-              </Typography>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
           {gameStarted ? (
             <Button onClick={handleRestart} fullWidth={true} variant="contained" color="secondary">
               <Typography variant="button">Restart</Typography> &nbsp;-&nbsp;
@@ -103,6 +86,7 @@ Menu.propTypes = {
   handleRestart: PropTypes.func.isRequired,
   handleDifficultyChange: PropTypes.func.isRequired,
   handleIsSignedIn: PropTypes.func.isRequired,
+  isSignedIn: PropTypes.bool.isRequired,
   difficulty: PropTypes.number.isRequired,
   gameStarted: PropTypes.bool.isRequired,
   lastGameScore: PropTypes.number.isRequired,

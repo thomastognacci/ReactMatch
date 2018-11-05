@@ -1,6 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import List from "@material-ui/core/List";
@@ -9,14 +11,9 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {Facebook, Google, GithubCircle} from "mdi-material-ui";
-import PropTypes from "prop-types";
-import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
 class SignInDialog extends React.PureComponent {
-  handleNotImplemented() {
-    alert("Not implemented yet :(");
-  }
   render() {
     const {open, authenticate, handleClose} = this.props;
     return (
@@ -28,6 +25,11 @@ class SignInDialog extends React.PureComponent {
               <DialogContentText>
                 Sign-in to have your best score uploaded and see how you do compare to the rest of
                 the world! <span style={{fontSize: ".5em"}}> and cheaters</span>
+              </DialogContentText>
+              <br />
+              <DialogContentText>
+                You can delete your personal data (name and profile picture) at any time by clicking
+                "Delete my personal data" in the menu.
               </DialogContentText>
             </DialogContent>
             <List
